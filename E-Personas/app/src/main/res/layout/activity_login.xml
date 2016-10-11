@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/color.background"
-    tools:context="com.gob.pgutierrezd.e_personas.LoginActivity">
+    tools:context=".views.LoginActivity">
 
     <ImageView
         android:id="@+id/image_logo"
@@ -43,31 +43,45 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:layout_below="@+id/text_subtitle">
 
         <EditText
+            android:id="@+id/edit_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Usuario"
             android:background="@drawable/shape_round"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:drawableLeft="@drawable/ic_action_person"/>
 
         <EditText
+            android:id="@+id/edit_password"
             android:hint="Contraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_round"
             android:singleLine="true"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:drawableLeft="@drawable/ic_action_accounts"/>
 
         <Button
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn.login.login"
             android:background="@color/color.background.login.btn.login"
             android:textColor="@color/color.text.login.btn.login"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:drawableRight="@drawable/ic_action_accept"/>
+
+        <ProgressBar
+            android:id="@+id/login_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
