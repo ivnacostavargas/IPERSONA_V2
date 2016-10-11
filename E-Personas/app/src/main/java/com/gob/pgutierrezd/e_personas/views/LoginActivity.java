@@ -3,6 +3,7 @@ package com.gob.pgutierrezd.e_personas.views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,8 @@ import com.gob.pgutierrezd.e_personas.interfaces.LoginPresenter;
 import com.gob.pgutierrezd.e_personas.interfaces.LoginView;
 import com.gob.pgutierrezd.e_personas.presenters.LoginPresenterImpl;
 import com.gob.pgutierrezd.e_personas.utils.CloseKeyboard;
+import com.gob.pgutierrezd.e_personas.utils.Connectivity;
+import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
@@ -22,6 +25,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private ProgressBar mProgressBar;
     private LoginPresenter presenter;
     private CloseKeyboard closeKeyboard;
+    private Connectivity connectivity;
+    private ShowMessageDialog showMessageDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +35,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         findViews();
         presenter = new LoginPresenterImpl(this);
         closeKeyboard = new CloseKeyboard(this);
+        connectivity = new Connectivity(this);
+        showMessageDialog = new ShowMessageDialog(this);
 
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeKeyboard.closeKeyboard();
-                presenter.validateCredentials(mTxtUsername.getText().toString(), mTxtPassword.getText().toString());
+                if(connectivity.conectadoRedMovil() || connectivity.conectadoWifi()) {
+                    presenter.validateCredentials(mTxtUsername.getText().toString(), mTxtPassword.getText().toString());
+                }else{
+                    showMessageDialog.showMessageInfo("Error","No cuentas con conexion a internet");
+                }
             }
         });
     }
