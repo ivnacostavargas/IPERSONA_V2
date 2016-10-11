@@ -3,4 +3,6 @@
     <string name="login.title">Jalando Parejo</string>
     <string name="login.sub_title">Plataforma de co-creación</string>
     <string name="btn.login.login">Ingresar</string>
+    <string name="login.title.menubar">Login</string>
+    <string name="main.title.menubar">Home</string>
 </resources>
