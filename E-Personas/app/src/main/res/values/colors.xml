@@ -16,4 +16,6 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="btnAzul">#387ff5</color>
+
+    <color name="divider">#8C8C8C</color>
 </resources>
