@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Colonia Segura"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="1.- ¿Que opinión tienes de las acciones de la Policía Municipal en tu Colonia?"
+        android:textColor="@color/black"/>
+
+    <RadioGroup
+        android:id="@+id/preunta1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/p1OP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Muy Buena"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p1OP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buena"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p1OP3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Regular"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p1OP4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mala"
+            android:checked="true"/>
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="2.- ¿Le gustaría que la Policía Municipal realizara patrullajes con mayor frecuencia en su Colonia?"
+        android:textColor="@color/black"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="30dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="3.- ¿En que horario estima que debe realiarse el patrullaje en su colonia? Por ..."
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <CheckBox
+            android:id="@+id/p3OP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="La Mañana"
+            android:layout_marginLeft="3dp"/>
+
+        <CheckBox
+            android:id="@+id/p3OP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="El Medio Día"
+            android:layout_marginLeft="3dp"/>
+        <CheckBox
+            android:id="@+id/p3OP3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="La Tarde"
+            android:layout_marginLeft="3dp"/>
+        <CheckBox
+            android:id="@+id/p3OP4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="La Noche"
+            android:layout_marginLeft="3dp"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <!--***********************************************************-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="4.- ¿Como considera las acciones de Municipio en su Colonia?"
+        android:textColor="@color/black"/>
+
+    <RadioGroup
+        android:id="@+id/preunta4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/p4OP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Muy Buena"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p4OP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buena"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p4OP3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Regular"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p4OP4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mala"
+            android:checked="true"/>
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="5.- ¿Tiene algún Tramite pendiente con la Administración Municipal?"
+        android:textColor="@color/black"/>
+
+    <Switch
+        android:id="@+id/p5OP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="30dp"/>
+
+    <EditText
+        android:id="@+id/p5OP2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="Comentarios"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <!--***********************************************************-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="6.- ¿Como concideras que a sido el Gobierno de Marcos Aguilar?"
+        android:textColor="@color/black"/>
+
+    <RadioGroup
+        android:id="@+id/preunta6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/p6OP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Muy Bueno"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p6OP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bueno"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p6OP3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Regular"
+            android:layout_marginRight="3dp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/p6OP4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Malo"
+            android:checked="true"/>
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="7.- ¿Que esperas de Marcos Aguilar?"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <CheckBox
+            android:id="@+id/p7OP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cercania con la gente"
+            android:layout_marginLeft="3dp"/>
+
+        <CheckBox
+            android:id="@+id/p7OP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Información Oportuna de las acciones"
+            android:layout_marginLeft="3dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+        <CheckBox
+            android:id="@+id/p7OP3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mas Seguridad"
+            android:layout_marginLeft="3dp"/>
+
+        <CheckBox
+            android:id="@+id/p7OP4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Obra Publica y Servicios"
+            android:layout_marginLeft="3dp"/>
+        <CheckBox
+            android:id="@+id/p7OP5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cuentas Claras"
+            android:layout_marginLeft="3dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="8.- ¿Practica o tiene conocidos que practiquen algún deporte dentro de su Colonia?"
+        android:textColor="@color/black"/>
+
+    <Switch
+        android:id="@+id/p8OP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="30dp"/>
+
+    <EditText
+        android:id="@+id/p8OP2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="Comentarios"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="0.3dp"
+        android:background="#f090A0"/>
+
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:text="9.- ¿Cual es la Principal necesidad en tu Colonia?"
+        android:textColor="@color/black"/>
+
+    <EditText
+        android:id="@+id/p9OP2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="Comentarios"/>
+
+</LinearLayout>
