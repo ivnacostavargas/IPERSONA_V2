@@ -9,11 +9,11 @@ public interface LoginInteractor {
 
         void onPasswordError();
 
-        void onSuccess();
-
         void onUsernameErrorEmpty();
 
         void onPasswordErrorEmpty();
+
+        void onSuccess();
     }
 
     void login(String username, String password, OnLoginFinishedListener listener);
