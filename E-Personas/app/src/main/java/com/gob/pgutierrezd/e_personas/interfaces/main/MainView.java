@@ -1,4 +1,4 @@
-package com.gob.pgutierrezd.e_personas.interfaces;
+package com.gob.pgutierrezd.e_personas.interfaces.main;
 
 /**
  * Created by pgutierrezd on 11/10/2016.
