@@ -103,7 +103,7 @@
             android:textStyle="bold"
             android:layout_gravity="right"
             android:textColor="@color/white"
-            android:background="@color/btnAzul"/>
+            android:background="@color/color_blue"/>
 
     </LinearLayout>
 
@@ -119,15 +119,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.8"/>
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="+"
             android:textSize="35dp"
             android:textStyle="bold"
+            android:src="@android:drawable/ic_menu_delete"
             android:layout_gravity="right"
             android:textColor="@color/white"
-            android:background="@color/btnAzul"/>
+            android:background="@color/color_blue"/>
 
     </LinearLayout>
 

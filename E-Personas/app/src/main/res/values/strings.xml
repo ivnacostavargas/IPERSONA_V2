@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">E-Personas</string>
-    <string name="login.title">Jalando Parejo</string>
-    <string name="login.sub_title">Plataforma de co-creación</string>
-    <string name="btn.login.login">Ingresar</string>
-    <string name="login.title.menubar">Login</string>
-    <string name="main.title.menubar">Home</string>
+    <string name="title_login_name">Login</string>
+    <string name="title_main_name">Home</string>
+
+    <string name="text_app_slogan">Jalando Parejo</string>
+
+    <string name="text_login_subtitle">Plataforma de co-creación</string>
+    <string name="btn_login_ingresar">Ingresar</string>
+    <string name="text_hint_login_usuario">Usuario</string>
+    <string name="text_hint_login_password">Contraseña</string>
+
+    <string name="text_hint_inicio_comencemos">Comencemos</string>
+    <string name="btn_inicio_ir_login">Iniciar con Login</string>
+    <string name="btn_login_registrar">Registrate...</string>
+
 </resources>
