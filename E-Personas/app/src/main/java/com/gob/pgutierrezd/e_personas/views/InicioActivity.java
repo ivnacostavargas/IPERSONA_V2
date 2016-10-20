@@ -3,6 +3,7 @@ package com.gob.pgutierrezd.e_personas.views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,8 @@ public class InicioActivity extends AppCompatActivity{
     private LoginButton loginButton;
     private CallbackManager callbackManager;
     private String email,name,first_name,last_name;
+    private ShowMessageDialog showMessageDialog;
+    private Connectivity connectivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,20 @@ public class InicioActivity extends AppCompatActivity{
         findViews();
         callbackManager = CallbackManager.Factory.create();
 
-        final Connectivity connectivity = new Connectivity(getApplicationContext());
-        final ShowMessageDialog showMessageDialog = new ShowMessageDialog(getApplicationContext());
+        connectivity = new Connectivity(this);
 
         btnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InicioActivity.this,LoginActivity.class));
+                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
+                showMessageDialog.showMessageLoad();
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMessageDialog.closeMessage();
+                        startActivity(new Intent(InicioActivity.this, LoginActivity.class));
+                    }
+                }, 1000);
             }
         });
 
@@ -53,6 +63,7 @@ public class InicioActivity extends AppCompatActivity{
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
                 // App code
                 Log.d("AA","Login onSuccess.");
                 if(connectivity.conectadoRedMovil() || connectivity.conectadoWifi()) {
@@ -65,6 +76,7 @@ public class InicioActivity extends AppCompatActivity{
             @Override
             public void onCancel() {
                 // App code
+                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
                 Log.d("AA","Login attempt canceled.");
                 showMessageDialog.showMessageInfo("Erro de conexion", "No cuentas con conexion a internet.");
             }
@@ -72,6 +84,7 @@ public class InicioActivity extends AppCompatActivity{
             @Override
             public void onError(FacebookException exception) {
                 // App code
+                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
                 Log.d("AA", "Login attempt failed.");
                 showMessageDialog.showMessageInfo("Erro de conexion", "No cuentas con conexion a internet.");
             }
@@ -94,10 +107,10 @@ public class InicioActivity extends AppCompatActivity{
                     name = object.getString("name");
                     first_name = object.optString("first_name");
                     last_name = object.optString("last_name");
-                    Log.d("AA","Email " + email
-                                    +", Nombre " + name
-                                    +", Primer nombre " + first_name
-                                    +", Apellido " + last_name
+                    Log.d("AA", "Email " + email
+                                    + ", Nombre " + name
+                                    + ", Primer nombre " + first_name
+                                    + ", Apellido " + last_name
                     );
                     //LoginManager.getInstance().logOut();
                 } catch (JSONException e) {

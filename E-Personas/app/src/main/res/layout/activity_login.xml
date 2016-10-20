@@ -12,7 +12,7 @@
 
     <ImageView
         android:id="@+id/image_logo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/logo"
         />
@@ -64,6 +64,9 @@
             android:background="@drawable/shape_round"
             android:singleLine="true"
             android:inputType="textPassword"
+            android:imeActionId="@+id/login"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"
             android:drawableLeft="@drawable/ic_action_accounts"/>
 
         <Button
@@ -83,14 +86,6 @@
             android:text="@string/btn_login_registrar"
             android:textColor="@color/color_blue"
             android:layout_gravity="center"/>
-
-        <ProgressBar
-            android:id="@+id/login_progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:visibility="gone"/>
 
     </LinearLayout>
 
