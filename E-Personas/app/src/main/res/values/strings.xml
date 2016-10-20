@@ -3,6 +3,8 @@
     <string name="title_login_name">Login</string>
     <string name="title_main_name">Home</string>
 
+    <string name="facebook_app_id">1829555517278298</string>
+
     <string name="text_app_slogan">Jalando Parejo</string>
 
     <string name="text_login_subtitle">Plataforma de co-creación</string>
