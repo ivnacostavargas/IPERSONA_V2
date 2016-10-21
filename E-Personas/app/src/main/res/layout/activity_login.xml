@@ -7,35 +7,35 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/color.background"
+    android:background="@color/color_background"
     tools:context=".views.LoginActivity">
 
     <ImageView
         android:id="@+id/image_logo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/logo"
         />
 
     <TextView
         android:id="@+id/text_title"
-        android:text="@string/login.title"
+        android:text="@string/text_app_slogan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/login.size.title"
-        android:textColor="@color/color.login.title"
+        android:textSize="@dimen/text_size_title"
+        android:textColor="@color/color_dark_blue"
         android:textStyle="bold"
         android:layout_below="@+id/image_logo"/>
 
     <TextView
         android:id="@+id/text_subtitle"
-        android:text="@string/login.sub_title"
+        android:text="@string/text_login_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="@dimen/login.size.sub_title"
-        android:textColor="@color/color.login.sub_title"
+        android:textSize="@dimen/text_size_sub_title"
+        android:textColor="@color/color_orange"
         android:textStyle="bold"
         android:layout_below="@+id/text_title"/>
 
@@ -50,7 +50,7 @@
             android:id="@+id/edit_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario"
+            android:hint="@string/text_hint_login_usuario"
             android:background="@drawable/shape_round"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:singleLine="true"
@@ -58,31 +58,34 @@
 
         <EditText
             android:id="@+id/edit_password"
-            android:hint="Contraseña"
+            android:hint="@string/text_hint_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_round"
             android:singleLine="true"
             android:inputType="textPassword"
+            android:imeActionId="@+id/login"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"
             android:drawableLeft="@drawable/ic_action_accounts"/>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn.login.login"
-            android:background="@color/color.background.login.btn.login"
-            android:textColor="@color/color.text.login.btn.login"
+            android:text="@string/btn_login_ingresar"
+            android:background="@color/color_blue"
+            android:textColor="@color/color_white"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:drawableRight="@drawable/ic_action_accept"/>
-
-        <ProgressBar
-            android:id="@+id/login_progressbar"
+        <Button
+            android:id="@+id/btnSingUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:visibility="gone"/>
+            android:background="@android:color/transparent"
+            android:text="@string/btn_login_registrar"
+            android:textColor="@color/color_blue"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 

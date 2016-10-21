@@ -3,15 +3,19 @@ package com.gob.pgutierrezd.e_personas.views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.login.widget.LoginButton;
 import com.gob.pgutierrezd.e_personas.R;
-import com.gob.pgutierrezd.e_personas.interfaces.LoginPresenter;
-import com.gob.pgutierrezd.e_personas.interfaces.LoginView;
+import com.gob.pgutierrezd.e_personas.interfaces.login.LoginPresenter;
+import com.gob.pgutierrezd.e_personas.interfaces.login.LoginView;
 import com.gob.pgutierrezd.e_personas.presenters.LoginPresenterImpl;
 import com.gob.pgutierrezd.e_personas.utils.CloseKeyboard;
 import com.gob.pgutierrezd.e_personas.utils.Connectivity;
@@ -22,7 +26,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private EditText mTxtUsername;
     private EditText mTxtPassword;
     private Button mBtnLogin;
-    private ProgressBar mProgressBar;
     private LoginPresenter presenter;
     private CloseKeyboard closeKeyboard;
     private Connectivity connectivity;
@@ -36,29 +39,34 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         presenter = new LoginPresenterImpl(this);
         closeKeyboard = new CloseKeyboard(this);
         connectivity = new Connectivity(this);
-        showMessageDialog = new ShowMessageDialog(this);
 
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeKeyboard.closeKeyboard();
-                if(connectivity.conectadoRedMovil() || connectivity.conectadoWifi()) {
-                    presenter.validateCredentials(mTxtUsername.getText().toString(), mTxtPassword.getText().toString());
-                }else{
-                    showMessageDialog.showMessageInfo("Error","No cuentas con conexion a internet");
+                login();
+            }
+        });
+
+        mTxtPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.login || id == EditorInfo.IME_ACTION_DONE) {
+                    login();
+                    return true;
                 }
+                return false;
             }
         });
     }
 
     @Override
     public void showProgress() {
-        mProgressBar.setVisibility(View.VISIBLE);
+        showMessageDialog.showMessageLoad();
     }
 
     @Override
     public void hideProgress() {
-        mProgressBar.setVisibility(View.GONE);
+        showMessageDialog.closeMessage();
     }
 
     @Override
@@ -87,10 +95,19 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         finish();
     }
 
+    public void login(){
+        showMessageDialog = new ShowMessageDialog(LoginActivity.this);
+        closeKeyboard.closeKeyboard();
+        if(connectivity.conectadoRedMovil() || connectivity.conectadoWifi()) {
+            presenter.validateCredentials(mTxtUsername.getText().toString(), mTxtPassword.getText().toString());
+        }else{
+            showMessageDialog.showMessageInfo("Error","No cuentas con conexion a internet");
+        }
+    }
+
     private void findViews(){
         mTxtUsername = (EditText) findViewById(R.id.edit_username);
         mTxtPassword = (EditText) findViewById(R.id.edit_password);
         mBtnLogin = (Button) findViewById(R.id.btn_login);
-        mProgressBar = (ProgressBar) findViewById(R.id.login_progressbar);
     }
 }

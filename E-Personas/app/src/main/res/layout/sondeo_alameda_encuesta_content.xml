@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
@@ -148,14 +150,13 @@
 
 
     <!--**********Aqui empieza el mapa***********************-->
-    <TextView
+    <FrameLayout
+        android:id="@+id/map_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:text="AQUI VA EL MAPA"
-        android:textColor="@color/black"/>
+        android:layout_height="300dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        tools:context=".FirstMapActivity"></FrameLayout>
     <!--**********Aqui termina el mapa***********************-->
 
     <LinearLayout
@@ -229,18 +230,5 @@
         android:hint="Otro Especifique"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"/>
-
-    <Button
-        android:id="@+id/guardarEncuesta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guardar"
-        android:textStyle="bold"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:background="#387ef5"
-        android:textColor="@color/white"/>
-
-
 
 </LinearLayout>

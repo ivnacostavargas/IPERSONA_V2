@@ -1,9 +1,9 @@
 package com.gob.pgutierrezd.e_personas.presenters;
 
 import com.gob.pgutierrezd.e_personas.interactors.LoginInteractorImpl;
-import com.gob.pgutierrezd.e_personas.interfaces.LoginInteractor;
-import com.gob.pgutierrezd.e_personas.interfaces.LoginPresenter;
-import com.gob.pgutierrezd.e_personas.interfaces.LoginView;
+import com.gob.pgutierrezd.e_personas.interfaces.login.LoginInteractor;
+import com.gob.pgutierrezd.e_personas.interfaces.login.LoginPresenter;
+import com.gob.pgutierrezd.e_personas.interfaces.login.LoginView;
 
 /**
  * Created by pgutierrezd on 11/10/2016.

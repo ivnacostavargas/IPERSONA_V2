@@ -3,7 +3,7 @@ package com.gob.pgutierrezd.e_personas.interactors;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.gob.pgutierrezd.e_personas.interfaces.LoginInteractor;
+import com.gob.pgutierrezd.e_personas.interfaces.login.LoginInteractor;
 
 /**
  * Created by pgutierrezd on 11/10/2016.
