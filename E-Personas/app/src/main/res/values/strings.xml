@@ -21,4 +21,7 @@
 
     <string name="action_sign_in_short">Sign in</string>
 
+    <string name="txt_bienvenido">Bienvenido</string>
+    <string name="txt_crear_usuario">Crear Usuario</string>
+
 </resources>

@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lotes Baldíos"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"/>
+        android:orientation="horizontal"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/pointer_advice"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lotes Baldíos"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -142,15 +155,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Regular"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/Lotesp5OP3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mala"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
 
     </RadioGroup>
 
