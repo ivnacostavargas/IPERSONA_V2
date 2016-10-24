@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Colonia Segura"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textAlignment="center"
+        android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:textColor="@color/black"/>
+        android:gravity="center">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/seguridad"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Colonia Segura"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -41,21 +55,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buena"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/p1OP3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Regular"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/p1OP4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mala"
-            android:checked="true"/>
+            android:text="Mala"/>
 
     </RadioGroup>
 
@@ -125,13 +136,18 @@
             android:layout_height="wrap_content"
             android:text="La Tarde"
             android:layout_marginLeft="3dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
         <CheckBox
             android:id="@+id/p3OP4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="La Noche"
             android:layout_marginLeft="3dp"/>
-
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -170,21 +186,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buena"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/p4OP3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Regular"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/p4OP4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mala"
-            android:checked="true"/>
+            android:text="Mala"/>
 
     </RadioGroup>
 
@@ -259,21 +272,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bueno"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/p6OP3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Regular"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
+            android:layout_marginRight="3dp"/>
         <RadioButton
             android:id="@+id/p6OP4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Malo"
-            android:checked="true"/>
+            android:text="Malo"/>
 
     </RadioGroup>
 
@@ -332,6 +342,14 @@
             android:layout_height="wrap_content"
             android:text="Obra Publica y Servicios"
             android:layout_marginLeft="3dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
         <CheckBox
             android:id="@+id/p7OP5"
             android:layout_width="wrap_content"

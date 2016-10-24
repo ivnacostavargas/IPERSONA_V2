@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private EditText mTxtUsername;
     private EditText mTxtPassword;
     private Button mBtnLogin;
+    private Button mBtnSingUp;
     private LoginPresenter presenter;
     private CloseKeyboard closeKeyboard;
     private Connectivity connectivity;
@@ -44,6 +45,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        mBtnSingUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),RegistroUsuarioActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -109,5 +118,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mTxtUsername = (EditText) findViewById(R.id.edit_username);
         mTxtPassword = (EditText) findViewById(R.id.edit_password);
         mBtnLogin = (Button) findViewById(R.id.btn_login);
+        mBtnSingUp = (Button)findViewById(R.id.btnSingUp);
     }
 }
