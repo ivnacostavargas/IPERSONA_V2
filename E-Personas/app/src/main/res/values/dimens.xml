@@ -3,13 +3,28 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!--Margenes de actividad-->
     <dimen name="horizontal_margin_medium">25dp</dimen>
-    <dimen name="vertical_medium">25dp</dimen>
+    <dimen name="vertical_margin_medium">25dp</dimen>
 
     <dimen name="horizontal_margin_large">35dp</dimen>
-    <dimen name="vertical_large">35dp</dimen>
+    <dimen name="vertical_margin_large">35dp</dimen>
 
+    <!--Tamaño de texto-->
     <dimen name="text_bigsize_title">35dp</dimen>
     <dimen name="text_size_title">25dp</dimen>
     <dimen name="text_size_sub_title">20dp</dimen>
+
+    <!--Tamaño de boton-->
+    <!--Width-->
+    <dimen name="btn_small_size_width">80dp</dimen>
+    <dimen name="btn_medium_size_width">150dp</dimen>
+    <dimen name="btn_big_size_width">300dp</dimen>
+    <!--Height-->
+    <dimen name="btn_small_size_hight">30dp</dimen>
+    <dimen name="btn_medium_size_hight">60dp</dimen>
+
+    <!--Map dimens-->
+    <dimen name="map_hight">300dp</dimen>
+
 </resources>

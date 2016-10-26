@@ -21,7 +21,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 }else if (TextUtils.isEmpty(password)){
                     listener.onPasswordErrorEmpty();
                     error = true;
-                }else if(!username.equals("Pablo")){
+                }else if(!username.equals("admin")){
                     listener.onUsernameError();
                     error = true;
                 }else if(!password.equals("123")){

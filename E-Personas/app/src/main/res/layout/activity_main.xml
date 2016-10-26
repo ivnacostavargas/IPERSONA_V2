@@ -1,17 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/barColor"
+    android:orientation="vertical"
     tools:context="com.gob.pgutierrezd.e_personas.views.MainActivity">
 
-    <Button
-        android:id="@+id/btnContinuar"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Entrar"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-</RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/color_white"
+        android:elevation="4dp">
+
+        <FrameLayout
+            android:id="@+id/mapInicioEncuesta"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/map_hight"
+            tools:context=".FirstMapActivity">
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/mapInicioEncuesta">
+
+            <Switch
+                android:id="@+id/switchMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_switch_main_bandera_false"
+                android:checked="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:id="@+id/textInstrucciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/switchMap"
+                android:text="@string/text_main_instrucciones_marker"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/btnContinuar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_medium_size_hight"
+                android:text="@string/text_main_continuar"
+                android:layout_gravity="center"
+                android:layout_below="@+id/textInstrucciones"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/color_blue"
+                android:textColor="@color/color_white"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

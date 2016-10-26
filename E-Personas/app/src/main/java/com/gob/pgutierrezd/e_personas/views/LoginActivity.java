@@ -51,8 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mBtnSingUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),RegistroUsuarioActivity.class);
-                startActivity(intent);
+                singUp();
             }
         });
 
@@ -112,6 +111,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }else{
             showMessageDialog.showMessageInfo("Error","No cuentas con conexion a internet");
         }
+    }
+
+    public void singUp(){
+        Intent intent = new Intent(getApplicationContext(),RegistroUsuarioActivity.class);
+        startActivity(intent);
     }
 
     private void findViews(){
