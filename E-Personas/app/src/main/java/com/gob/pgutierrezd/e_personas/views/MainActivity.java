@@ -5,7 +5,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -23,9 +25,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.gob.pgutierrezd.e_personas.R;
 import com.gob.pgutierrezd.e_personas.utils.AlarmReceiver;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
@@ -42,53 +47,69 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleMap.OnMarkerDragListener, LocationListener {
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMapClickListener {
 
     private Button mBtnContinuar;
     private TextView mTxtInstruccionesMaker;
+    private Toolbar toolbar;
 
     private MapFragment mMapFragment;
     private GoogleMap mMap;
 
-    private LocationManager mLocationManager;
-    private Geocoder mGeocoder;
-
-    private String mBestProvider;
-    private LatLng coords;
+    private Switch mSwitchChangeStatus;
+    private String[] coord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         findViews();
-        getLocationGPS();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name_main));
+        getMap();
+        coord = new String[2];
+
+        mSwitchChangeStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                coord[0] = null;
+                coord[1] = null;
+                if(isChecked){
+                    mSwitchChangeStatus.setText(getResources().getString(R.string.text_rb_main_bandera_true));
+                }else{
+                    mSwitchChangeStatus.setText(getResources().getString(R.string.text_rb_main_bandera_false));
+                    mMap.clear();
+                }
+            }
+        });
 
         mBtnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,EncuestaActivity.class));
+                if(coord[0] != null && coord[1] != null) {
+                    startActivity(new Intent(MainActivity.this, EncuestaActivity.class));
+                }else{
+                    Toast.makeText(MainActivity.this,"No podemos encontrar tu posición, por favor usa el marcador o presiona el boton para encontrar tu posición.",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
     private void findViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         mBtnContinuar = (Button) findViewById(R.id.btnContinuar);
         mTxtInstruccionesMaker = (TextView) findViewById(R.id.textInstrucciones);
+        mSwitchChangeStatus = (Switch) findViewById(R.id.switchMap);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, 17));
-        mMap.addMarker(new MarkerOptions()
-                .position(coords)
-                .draggable(true));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Constants.QUERETARO, 16));
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            //mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(true);
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -101,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMarkerDragListener(this);
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMapClickListener(MainActivity.this);
     }
 
     @Override
@@ -115,68 +138,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == Constants.LOCATION_REQUEST_CODE) {
-            if (permissions.length > 0 &&
-                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //mMap.setMyLocationEnabled(true);
-            } else {
-                Toast.makeText(this, "Error de permisos", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    protected void onPause() throws SecurityException{
-        // TODO Auto-generated method stub
-        super.onPause();
-        mLocationManager.removeUpdates(this);
-    }
-
-    @Override
-    protected void onResume() throws SecurityException{
-        // TODO Auto-generated method stub
-        super.onResume();
-        mLocationManager.requestLocationUpdates(mBestProvider, 1000, 10, this);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
-        String texto=String.format("Lat:\t %f\nLong:\t %f\nAlt: \t %f\n",location.getLatitude(),
-                location.getLongitude(),location.getAltitude());
-        coords = new LatLng(location.getLatitude(),location.getLongitude());
-        try {
-            List<Address> addresses=mGeocoder.getFromLocation(location.getLatitude(),location.getLongitude(), 10);
-            for(Address address:addresses){
-                //textOut.append("\n"+address.getAddressLine(0));
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        getMap();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+        coord[0] = String.valueOf(marker.getPosition().latitude);
+        coord[1] = String.valueOf(marker.getPosition().longitude);
+        Log.d("AA","Coordenadas al colocar marcador "+ marker.getPosition());
     }
 
     public void getMap() {
@@ -189,20 +153,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMapFragment.getMapAsync(this);
     }
 
-    public void getLocationGPS() {
-        mLocationManager=(LocationManager)getSystemService(LOCATION_SERVICE);
-        List<String> providers=mLocationManager.getAllProviders();
-        for(String prov:providers)
-            Log.d("Proveedores: ", prov);
-        Criteria criteria=new Criteria();
-        mBestProvider=mLocationManager.getBestProvider(criteria, false);
-        Log.d("Proveedor seleccionado", mBestProvider);
-        try {
-            mGeocoder = new Geocoder(this);
-            Location lastLocation = mLocationManager.getLastKnownLocation(mBestProvider);
-            if (lastLocation != null)
-                onLocationChanged(lastLocation);
-        }catch (SecurityException ex){}
+    @Override
+    public boolean onMyLocationButtonClick() {
+        coord[0] = String.valueOf(mMap.getCameraPosition().target.latitude);
+        coord[1] = String.valueOf(mMap.getCameraPosition().target.longitude);
+        Log.d("AA", "Coordenadas al presionar boton localización " + mMap.getCameraPosition());
+        mMap.clear();
+        return false;
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if(mSwitchChangeStatus.isChecked()){
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions()
+                    .position(mMap.getCameraPosition().target)
+                    .draggable(true));
+            coord[0] = String.valueOf(mMap.getCameraPosition().target.latitude);
+            coord[1] = String.valueOf(mMap.getCameraPosition().target.longitude);
+            Log.d("AA","Coordenadas al colocar marcador "+ mMap.getCameraPosition().target);
+        }else{
+            mMap.clear();
+        }
     }
 
     @Override
@@ -213,11 +185,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_close)
+        if (item.getItemId() == R.id.action_close) {
+            LoginManager.getInstance().logOut();
+            SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
             finish();
+            Intent intent = new Intent(this, InicioActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == Constants.LOCATION_REQUEST_CODE) {
+            if (permissions.length > 0 &&
+                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(true);
+            } else {
+                Toast.makeText(this, "Error de permisos", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
     private void notificacion(){
         Context context = getApplicationContext();
         PendingIntent alarmIntent;
@@ -232,5 +225,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         service.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30000, alarmIntent);
     }
-
 }

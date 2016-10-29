@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
-        presenter = new LoginPresenterImpl(this);
+        presenter = new LoginPresenterImpl(this, this);
         closeKeyboard = new CloseKeyboard(this);
         connectivity = new Connectivity(this);
 
@@ -99,8 +99,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void navigateToHome() {
-        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void errorConnectionServer() {
+        showMessageDialog.closeMessage();
     }
 
     public void login(){

@@ -1,5 +1,7 @@
 package com.gob.pgutierrezd.e_personas.presenters;
 
+import android.content.Context;
+
 import com.gob.pgutierrezd.e_personas.interactors.LoginInteractorImpl;
 import com.gob.pgutierrezd.e_personas.interfaces.login.LoginInteractor;
 import com.gob.pgutierrezd.e_personas.interfaces.login.LoginPresenter;
@@ -12,10 +14,12 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLog
 
     private LoginView loginView;
     private LoginInteractor loginInteractor;
+    private Context context;
 
-    public LoginPresenterImpl(LoginView loginView) {
+    public LoginPresenterImpl(LoginView loginView, Context context) {
         this.loginView = loginView;
         this.loginInteractor = new LoginInteractorImpl();
+        this.context = context;
     }
 
     @Override public void validateCredentials(String username, String password) {
@@ -23,7 +27,7 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLog
             loginView.showProgress();
         }
 
-        loginInteractor.login(username, password, this);
+        loginInteractor.login(username, password, this, context);
     }
 
     @Override public void onDestroy() {
@@ -63,6 +67,13 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLog
     @Override public void onSuccess() {
         if (loginView != null) {
             loginView.navigateToHome();
+        }
+    }
+
+    @Override
+    public void onErrorConnectionServer() {
+        if (loginView != null) {
+            loginView.errorConnectionServer();
         }
     }
 }

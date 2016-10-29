@@ -1,11 +1,14 @@
 package com.gob.pgutierrezd.e_personas.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -27,8 +30,6 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
     private Button mBtnGoLogin;
     private LoginButton mLoginButton;
     private CallbackManager mCallbackManager;
-    private String email,name,first_name,last_name;
-
     private ShowMessageDialog mShowMessageDialog;
     private InicioPresenter mInicioPresenter;
 
@@ -37,9 +38,9 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_inicio);
         findViews();
+        validateSession();
         mInicioPresenter = new InicioPresenterImpl(this,this);
         mCallbackManager = CallbackManager.Factory.create();
 
@@ -84,7 +85,8 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
 
     @Override
     public void loginFacebook() {
-        Intent intent = new Intent(InicioActivity.this, EncuestaActivity.class);
+        Intent intent = new Intent(InicioActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -111,4 +113,15 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
         mBtnGoLogin = (Button) findViewById(R.id.btn_go_login);
         mLoginButton = (LoginButton) findViewById(R.id.btn_login_facebook);
     }
+
+    private void validateSession(){
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
+        String id = preferences.getString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG);
+        if(id.length() > 0 && !id.equals("id")){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
 }

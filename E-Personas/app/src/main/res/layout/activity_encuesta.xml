@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/color_background"
     tools:context="com.gob.pgutierrezd.e_personas.views.EncuestaActivity">
 
     <ScrollView
@@ -17,44 +17,65 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/colonia_segura_encuesta_content"></include>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/divider"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                ></View>
-            <include layout="@layout/introduccion_obra_encuesta_content"></include>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/divider"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                ></View>
-            <include layout="@layout/lotes_baldios_encuesta_content"></include>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/divider"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                ></View>
-            <include layout="@layout/sondeo_alameda_encuesta_content"></include>
-
-            <Button
-                android:id="@+id/guardarEncuesta"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guardar"
-                android:textStyle="bold"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:background="@color/color_blue"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
+                android:background="@color/color_white"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/small_padding"
+                android:elevation="@dimen/elevation">
+                <include layout="@layout/colonia_segura_encuesta_content"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/small_padding"
+                android:elevation="@dimen/elevation">
+                <include layout="@layout/introduccion_obra_encuesta_content"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/small_padding"
+                android:elevation="@dimen/elevation">
+                <include layout="@layout/lotes_baldios_encuesta_content"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/small_padding"
+                android:elevation="@dimen/elevation">
+                <include layout="@layout/sondeo_alameda_encuesta_content"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:padding="@dimen/small_padding"
+                android:elevation="@dimen/elevation">
+                <Button
+                    android:id="@+id/guardarEncuesta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Guardar"
+                    android:textStyle="bold"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@color/color_blue"
+                    android:textColor="@color/color_white"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

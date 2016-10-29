@@ -17,4 +17,8 @@ public class Constants {
             "public_profile"
     };
 
+    //SharedPreferences
+    public static final String SHARED_PREFERENCES_LOGIN = "login";
+    public static final String SHARED_PREFERENCES_LOGIN_ID_FLAG = "id";
+
 }

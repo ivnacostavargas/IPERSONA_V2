@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/barColor"
+    android:background="@color/color_background"
     android:orientation="vertical"
     tools:context="com.gob.pgutierrezd.e_personas.views.MainActivity">
 
@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@color/color_white"
-        android:elevation="4dp">
+        android:elevation="@dimen/elevation">
 
         <FrameLayout
             android:id="@+id/mapInicioEncuesta"
@@ -46,7 +46,7 @@
                 android:id="@+id/switchMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_switch_main_bandera_false"
+                android:text="@string/text_rb_main_bandera_false"
                 android:checked="false"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
@@ -57,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/switchMap"
                 android:text="@string/text_main_instrucciones_marker"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_margin="@dimen/horizontal_margin_very_small"/>
 
             <Button
                 android:id="@+id/btnContinuar"

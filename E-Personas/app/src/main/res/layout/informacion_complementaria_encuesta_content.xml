@@ -1,134 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Información Complementaria"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teléfono"/>
+            <EditText
+                android:id="@+id/telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="442 0000000"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:text="Teléfono"/>
-    <EditText
-        android:id="@+id/telefono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:inputType="number"
-        android:hint="442 0000000"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Correo"
+                />
+            <EditText
+                android:id="@+id/correo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="ejemplo@hotmail.com"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:text="Correo"/>
-    <EditText
-        android:id="@+id/correo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:inputType="textEmailAddress"
-        android:hint="ejemplo@hotmail.com"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Facebook"/>
+            <EditText
+                android:id="@+id/fecebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="fecebook"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:text="Facebook"/>
-    <EditText
-        android:id="@+id/fecebook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:inputType="textEmailAddress"
-        android:hint="fecebook"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Twitter"/>
+            <EditText
+                android:id="@+id/twitter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint=" @twitter"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:text="Twitter"/>
-    <EditText
-        android:id="@+id/twitter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:inputType="textEmailAddress"
-        android:hint=" @twitter"/>
+            <RadioGroup
+                android:id="@+id/Alameda_preunta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1.5"
-            android:text="Foto de identificación"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="#343434"/>
+                <RadioButton
+                    android:id="@+id/Alamedap7OP1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hombre"
+                    android:layout_marginRight="3dp"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/Alamedap7OP2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mujer"
+                    android:layout_marginRight="3dp"/>
 
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="+"
-            android:textSize="35dp"
-            android:textStyle="bold"
-            android:layout_gravity="right"
-            android:textColor="@color/white"
-            android:background="@color/color_blue"/>
+            </RadioGroup>
 
-    </LinearLayout>
+            <EditText
+                android:layout_width="@dimen/width_edad"
+                android:hint="Edad aprox."
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_marginTop="@dimen/vertical_margin_small"
+                android:layout_gravity="center"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="10dp"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/vertical_margin_small"
+                android:weightSum="2">
+                <Spinner
+                    android:layout_width="@dimen/width_lugar_encuesta"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/vertical_margin_very_small"/>
+                <EditText
+                    android:hint="Otro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"/>
+            </LinearLayout>
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:textSize="35dp"
-            android:textStyle="bold"
-            android:src="@android:drawable/ic_menu_delete"
-            android:layout_gravity="right"
-            android:textColor="@color/white"
-            android:background="@color/color_blue"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1.5"
+                    android:text="Foto de identificación"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="#343434"/>
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:weightSum="5">
+
+                <ImageView
+                    android:layout_width="@dimen/width_photo"
+                    android:layout_height="@dimen/width_photo"
+                    android:src="@drawable/userphoto"
+                    android:layout_weight="3"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/plus"
+                    android:background="@color/color_blue"
+                    android:padding="@dimen/horizontal_margin_small"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/activity_horizontal_margin"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/trash"
+                    android:background="@color/color_blue"
+                    android:padding="@dimen/horizontal_margin_small"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/activity_horizontal_margin"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

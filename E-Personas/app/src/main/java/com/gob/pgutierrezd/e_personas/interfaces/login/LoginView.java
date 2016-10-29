@@ -17,4 +17,6 @@ public interface LoginView {
     void setPasswordErrorEmpty();
 
     void navigateToHome();
+
+    void errorConnectionServer();
 }

@@ -4,14 +4,25 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--Margenes de actividad-->
-    <dimen name="horizontal_margin_medium">25dp</dimen>
-    <dimen name="vertical_margin_medium">25dp</dimen>
-
     <dimen name="horizontal_margin_large">35dp</dimen>
     <dimen name="vertical_margin_large">35dp</dimen>
 
+    <dimen name="horizontal_margin_medium">25dp</dimen>
+    <dimen name="vertical_margin_medium">25dp</dimen>
+
+    <dimen name="horizontal_margin_small">12dp</dimen>
+    <dimen name="vertical_margin_small">12dp</dimen>
+
+    <dimen name="horizontal_margin_very_small">5dp</dimen>
+    <dimen name="vertical_margin_very_small">5dp</dimen>
+
+    <!--Padding-->
+    <dimen name="small_padding">3dp</dimen>
+
     <!--Tamaño de texto-->
     <dimen name="text_bigsize_title">35dp</dimen>
+    <dimen name="text_bigsmall_title">30dp</dimen>
+
     <dimen name="text_size_title">25dp</dimen>
     <dimen name="text_size_sub_title">20dp</dimen>
 
@@ -26,5 +37,12 @@
 
     <!--Map dimens-->
     <dimen name="map_hight">300dp</dimen>
+
+    <dimen name="elevation">4dp</dimen>
+
+    <!--Dimen Dialog-->
+    <dimen name="width_photo">130dp</dimen>
+    <dimen name="width_edad">150dp</dimen>
+    <dimen name="width_lugar_encuesta">100dp</dimen>
 
 </resources>
