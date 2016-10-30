@@ -13,6 +13,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.LoggingBehavior;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
@@ -24,6 +27,11 @@ import com.gob.pgutierrezd.e_personas.interfaces.inicio.InicioView;
 import com.gob.pgutierrezd.e_personas.presenters.InicioPresenterImpl;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 public class InicioActivity extends AppCompatActivity implements InicioView{
 
@@ -51,7 +59,8 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
             }
         });
 
-        mLoginButton.setReadPermissions(Constants.PERMISSIONS_FACEBOOK);
+        mLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

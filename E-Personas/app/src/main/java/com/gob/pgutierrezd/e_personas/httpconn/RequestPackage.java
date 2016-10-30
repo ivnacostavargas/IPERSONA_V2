@@ -1,5 +1,7 @@
 package com.gob.pgutierrezd.e_personas.httpconn;
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;

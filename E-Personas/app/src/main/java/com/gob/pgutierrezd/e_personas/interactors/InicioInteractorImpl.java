@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.GraphRequest;
@@ -30,30 +31,30 @@ public class InicioInteractorImpl implements InicioInteractor{
     @Override
     public void login(LoginResult loginResult, final Context context, final OnLoginFinishedListener listener) {
         if(loginResult != null){
-            final Profile profile = Profile.getCurrentProfile();
             // Facebook Email address
             GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),new GraphRequest.GraphJSONObjectCallback() {
                 @Override
                 public void onCompleted(JSONObject object,GraphResponse response) {
                     response.getJSONObject().toString();
                     try {
+                        String[] completeName = object.getString("name").split(" ");
                         mLoginRegister = new LoginRegister();
-                        mLoginRegister.setmNombre(profile.getFirstName());
-                        mLoginRegister.setmApellidos(profile.getLastName());
+                        mLoginRegister.setmNombre(completeName[0]);
+                        mLoginRegister.setmApellidos(lastName(completeName));
                         mLoginRegister.setmTelefono("");
                         mLoginRegister.setmFechaNacimiento("");
                         mLoginRegister.setmCorreo(object.getString("email"));
                         mLoginRegister.setmPassword("");
                         mLoginRegister.setmGenero(object.getString("gender"));
+                        Log.d("AA", completeName[0] + lastName(completeName) + "," + object.getString("email") + "," + object.getString("gender"));
                         requestDataLogin(context.getResources().getString(R.string.url), mLoginRegister, listener, context);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             });
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender");
+            parameters.putString("fields", "id,name,gender,email");
             request.setParameters(parameters);
             request.executeAsync();
         }
@@ -94,11 +95,10 @@ public class InicioInteractorImpl implements InicioInteractor{
         @Override
         protected String doInBackground(RequestPackage... params) {
             String content = HttpManager.getData(params[0]);
-            if(!content.equals("")){
-                return content;
-            }else {
-                return "";
+            while (content.equals("")){
+                content = HttpManager.getData(params[0]);
             }
+            return content;
         }
 
         @Override
@@ -130,6 +130,14 @@ public class InicioInteractorImpl implements InicioInteractor{
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
         }
+    }
+
+    private String lastName(String[] lastName){
+        String newLastName = "";
+        for (int i = 1; i < lastName.length; i++){
+            newLastName+= " " + lastName[i];
+        }
+        return newLastName;
     }
 
 }

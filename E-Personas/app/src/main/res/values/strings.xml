@@ -42,7 +42,9 @@
     <string name="text_registro_telefono">Teléfono celular</string>
     <string name="text_registro_email">Correo electrónico</string>
     <string name="text_registro_password">Contraseña</string>
-    <string name="text_registro_fecha_nacimiento">Fecha nacimiento: 00/00/0000</string>
+    <string name="text_registro_password_confirm">Confirma contraseña</string>
+    <string name="text_registro_password_hint">******</string>
+    <string name="text_registro_fecha_nacimiento">Fecha nacimiento: 1999/01/01</string>
     <string name="text_rb_registro_genero_m">Hombre</string>
     <string name="text_rb_registro_genero_f">Mujer</string>
     <string name="text_btn_registro_crear_usuario">Crear Perfil</string>

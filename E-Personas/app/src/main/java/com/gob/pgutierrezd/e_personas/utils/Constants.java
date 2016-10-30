@@ -12,10 +12,10 @@ public class Constants {
     public static final LatLng QUERETARO = new LatLng(20.5872194, -100.387161);
 
     //Facebook API
-    public static final String[] PERMISSIONS_FACEBOOK = new String[]{
+    /*public static final String[] PERMISSIONS_FACEBOOK = new String[]{
             "email",
             "public_profile"
-    };
+    };*/
 
     //SharedPreferences
     public static final String SHARED_PREFERENCES_LOGIN = "login";
