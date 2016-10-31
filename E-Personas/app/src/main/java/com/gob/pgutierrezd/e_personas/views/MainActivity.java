@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMarkerDragEnd(Marker marker) {
         coord[0] = String.valueOf(marker.getPosition().latitude);
         coord[1] = String.valueOf(marker.getPosition().longitude);
-        Log.d("AA","Coordenadas al colocar marcador "+ marker.getPosition());
+        Log.d("AA", "Coordenadas al colocar marcador " + marker.getPosition());
     }
 
     public void getMap() {
@@ -180,19 +180,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
+        String email = preferences.getString(Constants.SHARED_PREFERENCES_LOGIN_EMAIL_FLAG, Constants.SHARED_PREFERENCES_LOGIN_EMAIL_FLAG);
+        menu.getItem(0).setTitle(email);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
+        Intent intent;
+        if (item.getItemId() == R.id.action_user_information) {
+            String id = preferences.getString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG);
+            intent = new Intent(this,InformacionUsuarioActivity.class);
+            startActivity(intent);
+        }
         if (item.getItemId() == R.id.action_close) {
             LoginManager.getInstance().logOut();
-            SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.commit();
             finish();
-            Intent intent = new Intent(this, InicioActivity.class);
+            intent = new Intent(this, InicioActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

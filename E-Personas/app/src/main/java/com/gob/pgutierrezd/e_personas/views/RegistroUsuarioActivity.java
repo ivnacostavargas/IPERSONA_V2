@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import com.gob.pgutierrezd.e_personas.R;
 import com.gob.pgutierrezd.e_personas.interfaces.registro.RegistroPresenter;
@@ -102,22 +100,26 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
         mBtnCrearPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mBandera){
-                    mLoginRegister = new LoginRegister();
-                    mLoginRegister.setmNombre(mNombre.getText().toString());
-                    mLoginRegister.setmApellidos(mApellidos.getText().toString());
-                    mLoginRegister.setmTelefono(mTelefono.getText().toString());
-                    mLoginRegister.setmFechaNacimiento(mFechaNacimiento.getText().toString());
-                    mLoginRegister.setmCorreo(mCorreo.getText().toString());
-                    mLoginRegister.setmPassword(mPasswordConfirm.getText().toString());
-                    if(mGeneroM.isChecked()){
-                        mLoginRegister.setmGenero("male");
-                    }else if(mGeneroF.isChecked()){
-                        mLoginRegister.setmGenero("female");
+                if (mConnectivity.conectadoRedMovil() || mConnectivity.conectadoWifi()) {
+                    if (mBandera) {
+                        mLoginRegister = new LoginRegister();
+                        mLoginRegister.setmNombre(mNombre.getText().toString());
+                        mLoginRegister.setmApellidos(mApellidos.getText().toString());
+                        mLoginRegister.setmTelefono(mTelefono.getText().toString());
+                        mLoginRegister.setmFechaNacimiento(mFechaNacimiento.getText().toString());
+                        mLoginRegister.setmCorreo(mCorreo.getText().toString());
+                        mLoginRegister.setmPassword(mPasswordConfirm.getText().toString());
+                        if (mGeneroM.isChecked()) {
+                            mLoginRegister.setmGenero("male");
+                        } else if (mGeneroF.isChecked()) {
+                            mLoginRegister.setmGenero("female");
+                        }
+                        mRegistroPresenter.validateRegister(mLoginRegister, getApplicationContext());
+                    } else {
+                        mShowMessageDialog.showMessageInfo("Error", "Las contraseñas no coinciden");
                     }
-                    mRegistroPresenter.validateRegister(mLoginRegister,getApplicationContext());
                 }else{
-                    mShowMessageDialog.showMessageInfo("Error","Las contraseñas no coinciden");
+                    mShowMessageDialog.showMessageInfo("Error","No cuentas con señal wifi o datos móviles");
                 }
             }
         });

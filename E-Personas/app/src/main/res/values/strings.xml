@@ -3,6 +3,7 @@
     <string name="app_name">E-Personas</string>
     <string name="app_name_registro">Registro</string>
     <string name="app_name_main">Encuestas</string>
+    <string name="app_name_actualizar">Actualizar</string>
 
     <!--Titulos APP-->
     <string name="text_app_slogan">Jalando Parejo</string>
@@ -12,7 +13,9 @@
     <string name="googlemaps_app_id">AIzaSyAPc2NUmT4-HuEGb6wlpLza6gsfNJ6q2oo</string>
 
     <!--Menus-->
-    <string name="action_close">Cerrar</string>
+    <string name="action_user_information">Mi información</string>
+    <string name="action_user_encuestas_terminadas">Encuestas enviadas</string>
+    <string name="action_close">Logout</string>
 
     <!-- AlertDialog-->
     <string name="text_espera_message_load">Espera por favor...</string>
@@ -49,14 +52,34 @@
     <string name="text_rb_registro_genero_f">Mujer</string>
     <string name="text_btn_registro_crear_usuario">Crear Perfil</string>
 
+    <!--Actualizacion de datos-->
+    <string name="text_actualizar_title">Actualiza tus datos...</string>
+    <string name="text_btn_actualizar_usuario">Actualiza</string>
+
     <!-- Encuesta-->
     <string name="btn_desplegar_mapa_sondeo_alameda">Obtener tu posición</string>
+
+    <!--Alert Informacion complementaria-->
+    <string name="text_hint_alert_encuesta_numero">4425555555</string>
+    <string name="text_hint_alert_encuesta_email">ejemplo@hotmail.com</string>
+    <string name="text_hint_alert_encuesta_facebook">Usuario de facebook</string>
+    <string name="text_hint_alert_encuesta_twitter">Usuario de twitter: @usuario</string>
+    <string name="text_rb_alert_encuesta_genero_m">Hombre</string>
+    <string name="text_rb_alert_encuesta_genero_f">Mujer</string>
+    <string name="text_hint_alert_encuesta_edad_aprox">Edad aprox.</string>
+    <string name="text_hint_alert_encuesta_otro">Otro</string>
+
+    <string name="text_lbl_alert_encuesta_telefono">Teléfono</string>
+    <string name="text_lbl_alert_encuesta_correo">Correo</string>
+    <string name="text_lbl_alert_encuesta_facebook">Facebook</string>
+    <string name="text_lbl_alert_encuesta_twitter">Twitter</string>
+    <string name="text_lbl_alert_encuesta_foto">Foto de identificación</string>
 
     <!--Información complementaria-->
     <string name="text_dialog_title">Información Complementaria</string>
 
     <!--URL Simulacion-->
-    <string name="url">http://ivnacostavargas.xyz/ws/login.php</string>
+    <string name="url">http://ivnacostavargas.xyz/ws/</string>
 
     <!--URL Produccion
     <string name="url"></string>

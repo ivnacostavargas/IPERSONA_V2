@@ -47,7 +47,7 @@ public class InicioInteractorImpl implements InicioInteractor{
                         mLoginRegister.setmPassword("");
                         mLoginRegister.setmGenero(object.getString("gender"));
                         Log.d("AA", completeName[0] + lastName(completeName) + "," + object.getString("email") + "," + object.getString("gender"));
-                        requestDataLogin(context.getResources().getString(R.string.url), mLoginRegister, listener, context);
+                        requestDataLogin(context.getResources().getString(R.string.url), mLoginRegister, listener, context,object.getString("email"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -60,7 +60,7 @@ public class InicioInteractorImpl implements InicioInteractor{
         }
     }
 
-    private void requestDataLogin(String url, LoginRegister user, OnLoginFinishedListener listener, Context context){
+    private void requestDataLogin(String url, LoginRegister user, OnLoginFinishedListener listener, Context context, String email){
         RequestPackage requestPackage = new RequestPackage();
         String peticion = "{\"nombre\":\""+user.getmNombre()+"\","
                         +"\"apellidos\":\""+user.getmApellidos()+"\","
@@ -70,10 +70,10 @@ public class InicioInteractorImpl implements InicioInteractor{
                         +"\"password\":\""+user.getmPassword()+"\","
                         +"\"sexo\":\""+user.getmGenero()+"\","
                         +"\"facebook\":\"true\"}";
-        requestPackage.setUri(url);
+        requestPackage.setUri(url+"login.php");
         requestPackage.setMethod("POST");
         requestPackage.setParams("json", peticion);
-        LoginTask loginTask = new LoginTask(listener, context);
+        LoginTask loginTask = new LoginTask(listener, context,email);
         loginTask.execute(requestPackage);
     }
 
@@ -81,10 +81,12 @@ public class InicioInteractorImpl implements InicioInteractor{
 
         private OnLoginFinishedListener listener;
         private Context context;
+        private String email;
 
-        public LoginTask(OnLoginFinishedListener listener, Context context){
+        public LoginTask(OnLoginFinishedListener listener, Context context,String email){
             this.listener = listener;
             this.context = context;
+            this.email = email;
         }
 
         @Override
@@ -113,6 +115,7 @@ public class InicioInteractorImpl implements InicioInteractor{
                             SharedPreferences preferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, parent.getString("idUsuario"));
+                            editor.putString(Constants.SHARED_PREFERENCES_LOGIN_EMAIL_FLAG, this.email);
                             editor.commit();
                             Toast.makeText(context, child1.getString("mensaje"), Toast.LENGTH_LONG).show();
                             listener.onSuccess();

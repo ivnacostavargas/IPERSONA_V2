@@ -41,7 +41,7 @@ public class RegisterInteractorImpl implements RegistroInteractor {
                 +"\"password\":\""+user.getmPassword()+"\","
                 +"\"sexo\":\""+user.getmGenero()+"\","
                 +"\"facebook\":\"false\"}";
-        requestPackage.setUri(url);
+        requestPackage.setUri(url+"login.php");
         requestPackage.setMethod("POST");
         requestPackage.setParams("json", peticion);
         LoginTask loginTask = new LoginTask(listener, context);

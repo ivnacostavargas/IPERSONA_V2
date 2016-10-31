@@ -20,5 +20,9 @@ public class Constants {
     //SharedPreferences
     public static final String SHARED_PREFERENCES_LOGIN = "login";
     public static final String SHARED_PREFERENCES_LOGIN_ID_FLAG = "id";
+    public static final String SHARED_PREFERENCES_LOGIN_EMAIL_FLAG = "email";
+
+
+    public final static String IMAGE_PROFILE="base64.txt";
 
 }

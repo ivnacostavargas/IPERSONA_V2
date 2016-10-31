@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.gob.pgutierrezd.e_personas.R;
@@ -40,16 +41,16 @@ public class LoginInteractorImpl implements LoginInteractor {
             mLoginModel = new Login();
             mLoginModel.setEmail(username);
             mLoginModel.setPassword(password);
-            requestDataLogin(context.getResources().getString(R.string.url), mLoginModel, listener, context);
+            requestDataLogin(context.getResources().getString(R.string.url), mLoginModel, listener, context,username);
         }
     }
 
-    private void requestDataLogin(String url, Login user, OnLoginFinishedListener listener, Context context){
+    private void requestDataLogin(String url, Login user, OnLoginFinishedListener listener, Context context,String email){
         RequestPackage requestPackage = new RequestPackage();
-        requestPackage.setUri(url);
+        requestPackage.setUri(url+"login.php");
         requestPackage.setMethod("POST");
         requestPackage.setParams("json", "{\"correo\":\""+user.getEmail()+"\",\"password\":\""+user.getPassword()+"\"}");
-        LoginTask loginTask = new LoginTask(listener, context);
+        LoginTask loginTask = new LoginTask(listener, context, email);
         loginTask.execute(requestPackage);
     }
 
@@ -58,11 +59,13 @@ public class LoginInteractorImpl implements LoginInteractor {
         private OnLoginFinishedListener listener;
         private ShowMessageDialog showMessageDialog;
         private Context context;
+        private String email;
 
-        public LoginTask(OnLoginFinishedListener listener, Context context){
+        public LoginTask(OnLoginFinishedListener listener, Context context, String email){
             this.listener = listener;
             this.context = context;
             this.showMessageDialog = new ShowMessageDialog(context);
+            this.email = email;
         }
 
         @Override
@@ -72,12 +75,18 @@ public class LoginInteractorImpl implements LoginInteractor {
 
         @Override
         protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            if(!content.equals("")){
-                return content;
-            }else {
-                return "";
-            }
+            int aux = 0;
+            String content = "";
+            do{
+                content = HttpManager.getData(params[0]);
+                if(!content.equals("")){
+                    aux = 2;
+                }else{
+                    aux++;
+                }
+            }while(aux != 2);
+
+            return content;
         }
 
         @Override
@@ -92,6 +101,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                             SharedPreferences preferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, parent.getString("idUsuario"));
+                            editor.putString(Constants.SHARED_PREFERENCES_LOGIN_EMAIL_FLAG, email);
                             editor.commit();
                             Toast.makeText(context,child1.getString("mensaje"),Toast.LENGTH_LONG).show();
                             listener.onSuccess();
