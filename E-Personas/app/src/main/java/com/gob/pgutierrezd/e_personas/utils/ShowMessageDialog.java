@@ -49,7 +49,9 @@ public class ShowMessageDialog {
         this.loadView=inflater.inflate(R.layout.message_load, null);
         this.alertDialog = new AlertDialog.Builder(sContext)
                 .setView(loadView)
+                .setCancelable(false)
                 .show();
+        this.alertDialog.setCanceledOnTouchOutside(false);
     }
 
     public void closeMessage(){

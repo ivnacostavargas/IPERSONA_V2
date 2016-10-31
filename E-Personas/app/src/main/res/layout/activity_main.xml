@@ -22,58 +22,62 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@color/color_white"
-        android:elevation="@dimen/elevation">
-
-        <FrameLayout
-            android:id="@+id/mapInicioEncuesta"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/map_hight"
-            tools:context=".FirstMapActivity">
-        </FrameLayout>
-
+        android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_below="@+id/mapInicioEncuesta">
+            android:background="@color/color_white"
+            android:elevation="@dimen/elevation">
 
-            <Switch
-                android:id="@+id/switchMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_rb_main_bandera_false"
-                android:checked="false"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:id="@+id/textInstrucciones"
+            <FrameLayout
+                android:id="@+id/mapInicioEncuesta"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/switchMap"
-                android:text="@string/text_main_instrucciones_marker"
-                android:gravity="center"
-                android:layout_margin="@dimen/horizontal_margin_very_small"/>
+                android:layout_height="@dimen/map_hight"
+                tools:context=".FirstMapActivity">
+            </FrameLayout>
 
-            <Button
-                android:id="@+id/btnContinuar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btn_medium_size_hight"
-                android:text="@string/text_main_continuar"
-                android:layout_gravity="center"
-                android:layout_below="@+id/textInstrucciones"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@color/color_blue"
-                android:textColor="@color/color_white"/>
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_below="@+id/mapInicioEncuesta">
+
+                <Switch
+                    android:id="@+id/switchMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_rb_main_bandera_false"
+                    android:checked="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:id="@+id/textInstrucciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchMap"
+                    android:text="@string/text_main_instrucciones_marker"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/horizontal_margin_very_small"/>
+
+                <Button
+                    android:id="@+id/btnContinuar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_medium_size_hight"
+                    android:text="@string/text_main_continuar"
+                    android:layout_gravity="center"
+                    android:layout_below="@+id/textInstrucciones"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/color_blue"
+                    android:textColor="@color/color_white"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
-
-    </RelativeLayout>
+    </ScrollView>
 
 </LinearLayout>
