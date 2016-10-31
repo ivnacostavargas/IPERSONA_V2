@@ -10,9 +10,9 @@ import com.gob.pgutierrezd.e_personas.models.LoginRegister;
  */
 public interface ActualizarPresenter {
 
-    void getData(EditText[] data, int id, Context context);
+    void getData(EditText[] data, int id);
 
-    void updateData(LoginRegister loginRegister, Context context);
+    void updateData(LoginRegister loginRegister);
 
     void onDestroy();
 

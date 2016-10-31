@@ -27,7 +27,7 @@
             android:text="@string/text_app_slogan"
             android:gravity="center"
             android:textColor="@color/color_orange"
-            android:textSize="@dimen/text_bigsize_title"
+            android:textSize="@dimen/text_bigsmall_title"
             android:layout_below="@id/logo_head"
             android:textStyle="bold"
             />
@@ -56,8 +56,8 @@
             android:textSize="@dimen/text_size_sub_title"
             android:textColor="@color/color_white"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/horizontal_margin_small"
+            android:layout_marginBottom="@dimen/horizontal_margin_small"
             />
 
         <com.facebook.login.widget.LoginButton
@@ -75,9 +75,9 @@
             android:textColor="@color/color_white"
             android:background="@android:color/transparent"
             android:layout_below="@+id/btn_login_facebook"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/horizontal_margin_small"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/text_size_sub_title"/>
+            android:textSize="@dimen/text_size_15"/>
 
     </RelativeLayout>
 

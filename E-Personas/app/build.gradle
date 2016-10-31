@@ -6,16 +6,20 @@ android {
 
     defaultConfig {
         applicationId "com.gob.pgutierrezd.e_personas"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        generatedDensities = []
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
     }
 }
 

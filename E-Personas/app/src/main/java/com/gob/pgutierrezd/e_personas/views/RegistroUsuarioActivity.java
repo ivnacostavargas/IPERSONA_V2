@@ -1,5 +1,7 @@
 package com.gob.pgutierrezd.e_personas.views;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +10,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
@@ -19,6 +23,7 @@ import com.gob.pgutierrezd.e_personas.models.LoginRegister;
 import com.gob.pgutierrezd.e_personas.presenters.RegistroPresenterImpl;
 import com.gob.pgutierrezd.e_personas.utils.CloseKeyboard;
 import com.gob.pgutierrezd.e_personas.utils.Connectivity;
+import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 import com.gob.pgutierrezd.e_personas.utils.ValidateFields;
 
@@ -28,6 +33,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
     private EditText mNombre, mApellidos, mTelefono, mFechaNacimiento, mCorreo, mPassword, mPasswordConfirm;
     private RadioButton mGeneroM,mGeneroF;
     private Button mBtnCrearPerfil;
+    private ImageButton mGetCalendar;
     private ImageView mImageView;
     private RegistroPresenter mRegistroPresenter;
     private CloseKeyboard mCloseKeyboard;
@@ -37,6 +43,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
     private LoginRegister mLoginRegister;
 
     private boolean mBandera;
+    private int myear, mmonth, mday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,11 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
         mCloseKeyboard = new CloseKeyboard(this);
         mConnectivity = new Connectivity(this);
         mShowMessageDialog = new ShowMessageDialog(this);
+        mValidateFields = new ValidateFields();
         mBandera = false;
+
+        addListenerOnButton();
+        setCurrentDateOnView();
 
         mPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,6 +137,16 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
 
     }
 
+    private void addListenerOnButton() {
+        mGetCalendar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialog(Constants.DATE_DIALOG_ID);
+            }
+        });
+    }
+
     @Override
     public void showProgress() {
         mShowMessageDialog.showMessageLoad();
@@ -155,6 +176,41 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
         mShowMessageDialog.showMessageInfo("Error", "Error al registrar usuario, por favor vuelve a intentarlo.");
     }
 
+    public void setCurrentDateOnView() {
+        final java.util.Calendar c = java.util.Calendar.getInstance();
+        myear = c.get(java.util.Calendar.YEAR);
+        mmonth = c.get(java.util.Calendar.MONTH);
+        mday = c.get(java.util.Calendar.DAY_OF_MONTH);
+        mFechaNacimiento.setText(new StringBuilder().append(myear).append("-").append(mmonth + 1).append("-").append(mday));
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case Constants.DATE_DIALOG_ID:
+                // set date picker as current date
+                DatePickerDialog _date = new DatePickerDialog(this, datePickerListener, myear,mmonth,mday){
+                    @Override
+                    public void onDateChanged(DatePicker view, int yearSelected, int monthOfYearSelected, int dayOfMonthSelected){
+                        //calendarHelper.validateDate(view,yearSelected,monthOfYearSelected,dayOfMonthSelected, myear,mmonth,mday);
+                    }
+                };
+                return _date;
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int selectedYear,int selectedMonth, int selectedDay) {
+            myear = selectedYear;
+            mmonth = selectedMonth;
+            mday = selectedDay;
+
+            mFechaNacimiento.setText(new StringBuilder().append(myear).append("-").append(mmonth + 1)
+                    .append("-").append(mday));
+        }
+    };
+
     private void findViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mNombre = (EditText) findViewById(R.id.edittext_nombre);
@@ -169,5 +225,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity implements Regist
         mGeneroF = (RadioButton) findViewById(R.id.rb_genero_f);
         mNombre.setNextFocusRightId(mApellidos.getId());
         mBtnCrearPerfil = (Button) findViewById(R.id.btn_crear_perfil);
+        mGetCalendar = (ImageButton) findViewById(R.id.btnShowCalendar);
     }
 }

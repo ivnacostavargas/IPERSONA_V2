@@ -16,6 +16,8 @@ public interface ActualizarInteractor {
 
         void update();
 
+        void errorUpdate();
+
         void errorConnectionServer();
     }
 

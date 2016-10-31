@@ -47,7 +47,8 @@
     <string name="text_registro_password">Contraseña</string>
     <string name="text_registro_password_confirm">Confirma contraseña</string>
     <string name="text_registro_password_hint">******</string>
-    <string name="text_registro_fecha_nacimiento">Fecha nacimiento: 1999/01/01</string>
+    <string name="text_registro_fecha_nacimiento">0000/00/00</string>
+    <string name="text_registro_date_picker">Abrir calendario</string>
     <string name="text_rb_registro_genero_m">Hombre</string>
     <string name="text_rb_registro_genero_f">Mujer</string>
     <string name="text_btn_registro_crear_usuario">Crear Perfil</string>

@@ -21,6 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
+                android:layout_marginTop="@dimen/vertical_margin_very_small"
+                android:layout_marginLeft="@dimen/vertical_margin_very_small"
+                android:layout_marginRight="@dimen/vertical_margin_very_small"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:padding="@dimen/small_padding"
                 android:elevation="@dimen/elevation">
@@ -31,6 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
+                android:layout_marginTop="@dimen/vertical_margin_very_small"
+                android:layout_marginLeft="@dimen/vertical_margin_very_small"
+                android:layout_marginRight="@dimen/vertical_margin_very_small"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:padding="@dimen/small_padding"
                 android:elevation="@dimen/elevation">
@@ -41,6 +47,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
+                android:layout_marginTop="@dimen/vertical_margin_very_small"
+                android:layout_marginLeft="@dimen/vertical_margin_very_small"
+                android:layout_marginRight="@dimen/vertical_margin_very_small"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:padding="@dimen/small_padding"
                 android:elevation="@dimen/elevation">
@@ -51,6 +60,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_white"
+                android:layout_marginTop="@dimen/vertical_margin_very_small"
+                android:layout_marginLeft="@dimen/vertical_margin_very_small"
+                android:layout_marginRight="@dimen/vertical_margin_very_small"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:padding="@dimen/small_padding"
                 android:elevation="@dimen/elevation">

@@ -24,6 +24,7 @@ import org.json.JSONObject;
 public class LoginInteractorImpl implements LoginInteractor {
 
     private Login mLoginModel;
+    private String TAG = "LoginInteractor";
 
     @Override
     public void login(final String username, final String password, final OnLoginFinishedListener listener, Context context) {
@@ -85,7 +86,6 @@ public class LoginInteractorImpl implements LoginInteractor {
                     aux++;
                 }
             }while(aux != 2);
-
             return content;
         }
 

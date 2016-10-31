@@ -27,11 +27,11 @@ public class RegisterInteractorImpl implements RegistroInteractor {
                 || loginRegister.getmPassword().isEmpty() || loginRegister.getmGenero().isEmpty()){
             listener.setFieldErrorEmpty();
         }else{
-            requestDataLogin(context.getResources().getString(R.string.url), loginRegister, listener, context);
+            requestDataRegister(context.getResources().getString(R.string.url), loginRegister, listener, context);
         }
     }
 
-    private void requestDataLogin(String url, LoginRegister user, OnRegisterFinishedListener listener, Context context){
+    private void requestDataRegister(String url, LoginRegister user, OnRegisterFinishedListener listener, Context context){
         RequestPackage requestPackage = new RequestPackage();
         String peticion = "{\"nombre\":\""+user.getmNombre()+"\","
                 +"\"apellidos\":\""+user.getmApellidos()+"\","
@@ -41,19 +41,19 @@ public class RegisterInteractorImpl implements RegistroInteractor {
                 +"\"password\":\""+user.getmPassword()+"\","
                 +"\"sexo\":\""+user.getmGenero()+"\","
                 +"\"facebook\":\"false\"}";
-        requestPackage.setUri(url+"login.php");
+        requestPackage.setUri(url + "login.php");
         requestPackage.setMethod("POST");
         requestPackage.setParams("json", peticion);
-        LoginTask loginTask = new LoginTask(listener, context);
-        loginTask.execute(requestPackage);
+        RegisterUserTask registerUserTask = new RegisterUserTask(listener, context);
+        registerUserTask.execute(requestPackage);
     }
 
-    private class LoginTask extends AsyncTask<RequestPackage, String, String> {
+    private class RegisterUserTask extends AsyncTask<RequestPackage, String, String> {
 
         private OnRegisterFinishedListener listener;
         private Context context;
 
-        public LoginTask(OnRegisterFinishedListener listener, Context context){
+        public RegisterUserTask(OnRegisterFinishedListener listener, Context context){
             this.listener = listener;
             this.context = context;
         }

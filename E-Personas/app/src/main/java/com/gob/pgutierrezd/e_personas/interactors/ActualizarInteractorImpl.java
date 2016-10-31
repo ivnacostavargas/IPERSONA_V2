@@ -9,6 +9,7 @@ import com.gob.pgutierrezd.e_personas.httpconn.HttpManager;
 import com.gob.pgutierrezd.e_personas.httpconn.RequestPackage;
 import com.gob.pgutierrezd.e_personas.interfaces.actualizar.ActualizarInteractor;
 import com.gob.pgutierrezd.e_personas.models.LoginRegister;
+import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,30 +22,41 @@ public class ActualizarInteractorImpl implements ActualizarInteractor {
 
     @Override
     public void getUser(EditText[] data, int id, OnUpdateFinishedListener listener, Context context) {
-        requestDataLogin(context.getResources().getString(R.string.url),data,id, listener,context);
+        requestGetDataUser(context.getResources().getString(R.string.url), data, id, listener, context);
     }
 
     @Override
     public void updateUser(LoginRegister loginRegister, OnUpdateFinishedListener listener, Context context) {
-
+        requestDataUpdate(context.getResources().getString(R.string.url),loginRegister,listener,context);
     }
 
-    private void requestDataLogin(String url, EditText[] data, int id, OnUpdateFinishedListener listener, Context context){
+    private void requestGetDataUser(String url, EditText[] data, int id, OnUpdateFinishedListener listener, Context context){
         RequestPackage requestPackage = new RequestPackage();
-        requestPackage.setUri(url+"getUsuarios.php");
+        requestPackage.setUri(url + "getUsuarios.php");
         requestPackage.setMethod("POST");
         requestPackage.setParams("json", "{\"idUsuario\":"+id+"}");
-        LoginTask loginTask = new LoginTask(listener, context,data);
-        loginTask.execute(requestPackage);
+        GetDataUserTask getDataUserTask = new GetDataUserTask(listener, context,data);
+        getDataUserTask.execute(requestPackage);
     }
 
-    private class LoginTask extends AsyncTask<RequestPackage, String, String> {
+    private void requestDataUpdate(String url, LoginRegister loginRegister, OnUpdateFinishedListener listener, Context context){
+        RequestPackage requestPackage = new RequestPackage();
+        requestPackage.setUri(url+"updateDatos.php");
+        requestPackage.setMethod("POST");
+        requestPackage.setParams("json", "{\"correo\":\""+loginRegister.getmCorreo()+"\"," +
+                "\"telefono\":\""+loginRegister.getmTelefono()+"\"," +
+                "\"fechaNacimiento\":\""+loginRegister.getmFechaNacimiento()+"\"}");
+        UpdateDataTask updateDataTask = new UpdateDataTask(listener, context);
+        updateDataTask.execute(requestPackage);
+    }
+
+    private class GetDataUserTask extends AsyncTask<RequestPackage, String, String> {
 
         private OnUpdateFinishedListener listener;
         private Context context;
         EditText[] data;
 
-        public LoginTask(OnUpdateFinishedListener listener, Context context, EditText[] data){
+        public GetDataUserTask(OnUpdateFinishedListener listener, Context context, EditText[] data){
             this.listener = listener;
             this.context = context;
             this.data = data;
@@ -74,11 +86,68 @@ public class ActualizarInteractorImpl implements ActualizarInteractor {
                         JSONObject child1 = new JSONObject(parent.getString("dto"));
                         data[0].setText(child1.getString("nombre"));
                         data[1].setText(child1.getString("apellidos"));
-                        data[2].setText(child1.getString("telefono"));
-                        data[3].setText(child1.getString("correo"));
+                        data[2].setText(child1.getString("correo"));
+                        data[3].setText(child1.getString("telefono"));
                         data[4].setText(child1.getString("fechaNacimiento"));
                         listener.getDataFinish();
                     }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+    private class UpdateDataTask extends AsyncTask<RequestPackage, String, String> {
+
+        private OnUpdateFinishedListener listener;
+        private Context context;
+        private ShowMessageDialog showMessageDialog;
+
+        public UpdateDataTask(OnUpdateFinishedListener listener, Context context){
+            this.listener = listener;
+            this.context = context;
+            this.showMessageDialog = new ShowMessageDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            String content = HttpManager.getData(params[0]);
+            while (content.equals("")){
+                content = HttpManager.getData(params[0]);
+            }
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if(!s.equals("")) {
+                    JSONObject parent = new JSONObject(s);
+                    if (parent.length() > 0) {
+                        JSONObject child1 = new JSONObject(parent.getString("error"));
+                        if(child1.getString("clave").equals("OK")) {
+                            showMessageDialog.showMessageInfo("Felicidades","Datos actualizados correctamente!");
+                            listener.getDataFinish();
+                        }else{
+                            showMessageDialog.showMessageInfo("Error", "No pudimos actualizar tus datos!");
+                            listener.errorUpdate();
+                        }
+                    }
+                }else{
+                    showMessageDialog.showMessageInfo("Error","Error al intentar conectar con el servidor");
+                    listener.errorConnectionServer();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

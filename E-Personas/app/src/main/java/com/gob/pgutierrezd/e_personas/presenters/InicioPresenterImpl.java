@@ -26,6 +26,7 @@ public class InicioPresenterImpl implements InicioPresenter, InicioInteractor.On
     @Override
     public void validateAccessFacebook(LoginResult loginResult) {
         if (inicioView != null) {
+            inicioView.showProgress();
             inicioInteractor.login(loginResult,context,this);
         }
     }
@@ -46,6 +47,7 @@ public class InicioPresenterImpl implements InicioPresenter, InicioInteractor.On
     public void onSuccess() {
         if (inicioView != null) {
             inicioView.loginFacebook();
+            inicioView.hideProgress();
         }
     }
 

@@ -25,7 +25,7 @@ public class ActualizarPresenterImpl implements ActualizarPresenter, ActualizarI
     }
 
     @Override
-    public void getData(EditText[] data, int id, Context context) {
+    public void getData(EditText[] data, int id) {
         if(mActualizarView != null){
             mActualizarView.showProgress();
             mActualizarInteractor.getUser(data,id,this,context);
@@ -33,9 +33,17 @@ public class ActualizarPresenterImpl implements ActualizarPresenter, ActualizarI
     }
 
     @Override
-    public void updateData(LoginRegister loginRegister, Context context) {
+    public void updateData(LoginRegister loginRegister) {
         if(mActualizarView != null){
             mActualizarView.showProgress();
+            mActualizarInteractor.updateUser(loginRegister,this,context);
+        }
+    }
+
+    @Override
+    public void errorUpdate() {
+        if(mActualizarView != null){
+            mActualizarView.hideProgress();
         }
     }
 

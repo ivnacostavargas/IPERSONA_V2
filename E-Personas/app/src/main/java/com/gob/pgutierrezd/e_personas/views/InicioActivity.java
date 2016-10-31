@@ -40,7 +40,7 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
     private CallbackManager mCallbackManager;
     private ShowMessageDialog mShowMessageDialog;
     private InicioPresenter mInicioPresenter;
-
+    private ShowMessageDialog showMessageDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
         validateSession();
         mInicioPresenter = new InicioPresenterImpl(this,this);
         mCallbackManager = CallbackManager.Factory.create();
+        showMessageDialog = new ShowMessageDialog(this);
 
         mBtnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +60,7 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
             }
         });
 
-        mLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        mLoginButton.setReadPermissions(Constants.PERMISSIONS_FACEBOOK);
 
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -76,7 +77,7 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
             @Override
             public void onError(FacebookException exception) {
                 mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                mShowMessageDialog.showMessageInfo("Erro", "Error al iniciar sesion.");
+                mShowMessageDialog.showMessageInfo("Error", "Error al iniciar sesion.");
             }
         });
         new ProfileTracker() {
@@ -90,6 +91,16 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void showProgress() {
+        showMessageDialog.showMessageLoad();
+    }
+
+    @Override
+    public void hideProgress() {
+        showMessageDialog.closeMessage();
     }
 
     @Override

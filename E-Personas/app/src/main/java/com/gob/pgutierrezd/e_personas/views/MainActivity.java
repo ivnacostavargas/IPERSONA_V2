@@ -195,6 +195,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             intent = new Intent(this,InformacionUsuarioActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId() == R.id.action_user_encuestas){
+            intent = new Intent(this,HistorialActivity.class);
+            startActivity(intent);
+        }
         if (item.getItemId() == R.id.action_close) {
             LoginManager.getInstance().logOut();
             SharedPreferences.Editor editor = preferences.edit();
