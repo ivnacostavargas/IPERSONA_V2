@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,7 +24,7 @@
             android:textAlignment="center"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/color_black"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,7 +41,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="1.- ¿Le gusta la apariencia que guarda\n actualmente la alameda?"
-            android:textColor="@color/black"/>
+            android:textColor="@color/color_black"/>
 
         <Switch
             android:id="@+id/Alamedap1OP1"
@@ -68,7 +67,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="2.- ¿Usted se siente seguro al transitar\n por la zona de la alameda?"
-            android:textColor="@color/black"/>
+            android:textColor="@color/color_black"/>
 
         <Switch
             android:id="@+id/Alamedap2OP1"
@@ -94,7 +93,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="3.- ¿Le gustaría que la alameda fuera\n un lugar para el recreo y el esparcimiento\n de los niños y las familias?"
-            android:textColor="@color/black"/>
+            android:textColor="@color/color_black"/>
 
         <Switch
             android:id="@+id/Alamedap3OP1"
@@ -113,7 +112,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:text="4.- ¿Cual considera el principal problema de la\n alameda?"
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_black"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,7 +150,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:text="5.- ¿Que haría usted para mejorar la imagen de la\n alameda?"
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_black"/>
 
     <EditText
         android:id="@+id/Alamedap5OP1"
@@ -160,17 +159,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="Comentarios"/>
-
-
-    <!--**********Aqui empieza el mapa***********************-->
-    <FrameLayout
-        android:id="@+id/map_container"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        tools:context=".FirstMapActivity"></FrameLayout>
-    <!--**********Aqui termina el mapa***********************-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -186,7 +174,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="6.- ¿Quiere recibir los Resultados?"
-            android:textColor="@color/black"/>
+            android:textColor="@color/color_black"/>
 
         <Switch
             android:id="@+id/Alamedap6OP1"
@@ -197,50 +185,5 @@
             android:layout_weight="1"/>
 
     </LinearLayout>
-
-    <RadioGroup
-        android:id="@+id/Alameda_preunta1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/Alamedap7OP1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hombre"
-            android:layout_marginRight="3dp"
-            android:checked="true"/>
-        <RadioButton
-            android:id="@+id/Alamedap7OP2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mujer"
-            android:layout_marginRight="3dp"/>
-
-    </RadioGroup>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Edad Aproximada"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:inputType="number"/>
-
-    <Spinner
-        android:id="@+id/ubicacionEncuesta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"></Spinner>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Otro Especifique"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

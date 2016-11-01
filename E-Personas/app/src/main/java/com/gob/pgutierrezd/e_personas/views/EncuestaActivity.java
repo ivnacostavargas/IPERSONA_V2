@@ -1,33 +1,48 @@
 package com.gob.pgutierrezd.e_personas.views;
 
-import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.gob.pgutierrezd.e_personas.R;
 import com.gob.pgutierrezd.e_personas.interfaces.encuesta.EncuestaView;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
-import com.gob.pgutierrezd.e_personas.utils.googlemaps.MapFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.gob.pgutierrezd.e_personas.utils.ConvertBase64;
 
-public class EncuestaActivity extends AppCompatActivity implements EncuestaView, OnMapReadyCallback {
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    private MapFragment mMapFragment;
-    private GoogleMap mMap;
-    private Switch mAlamedap6OP1;
+public class EncuestaActivity extends AppCompatActivity implements EncuestaView {
+
+    //Campos de encuesta
+
+    //Campos de dialogo informacion complementaria
+    private EditText mTextTelefono, mTextCorreo, mTxtFacebook, mTxtTwitter, mTextEdadAprox, mTextOtro;
+    private RadioButton mRbHombre, mRbMujer;
+    private Spinner mSpnLugar;
+    private ImageView mImgIdentificacion;
+
+    private Switch mSwcEncuestaDialog;
+    private Uri mPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,55 +50,14 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView,
         setContentView(R.layout.activity_encuesta);
         findViews();
 
-        mAlamedap6OP1.setOnClickListener(new View.OnClickListener() {
+        mSwcEncuestaDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InformacionComplementaria();
+                if (mSwcEncuestaDialog.isChecked()) {
+                    informacionComplementaria();
+                }
             }
         });
-
-        mMapFragment = mMapFragment.newInstance();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.map_container, mMapFragment)
-                .commit();
-
-        mMapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Constants.QUERETARO, 14));
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        Constants.LOCATION_REQUEST_CODE);
-            }
-        }
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == Constants.LOCATION_REQUEST_CODE) {
-            if (permissions.length > 0 &&
-                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                mMap.setMyLocationEnabled(true);
-            } else {
-                Toast.makeText(this, "Error de permisos", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     @Override
@@ -97,21 +71,106 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView,
     }
 
     private void findViews(){
-        mAlamedap6OP1 = (Switch)findViewById(R.id.Alamedap6OP1);
+        mSwcEncuestaDialog = (Switch)findViewById(R.id.Alamedap6OP1);
     }
 
-    public void InformacionComplementaria(){
+    public void informacionComplementaria(){
         LayoutInflater inflater = LayoutInflater.from(this);
-        View detallesView = inflater.inflate(R.layout.informacion_complementaria_encuesta_content,null);
+        View detallesView = inflater.inflate(R.layout.informacion_complementaria_encuesta_content, null);
 
-        new AlertDialog.Builder(this).setTitle("Detalles del registro")
+        mTextTelefono = (EditText) detallesView.findViewById(R.id.telefono);
+        mTextCorreo = (EditText) detallesView.findViewById(R.id.correo);
+        mTxtFacebook = (EditText) detallesView.findViewById(R.id.fecebook);
+        mTxtTwitter = (EditText) detallesView.findViewById(R.id.twitter);
+        mRbHombre = (RadioButton) detallesView.findViewById(R.id.rb_hombre);
+        mRbMujer = (RadioButton) detallesView.findViewById(R.id.rb_mujer);
+        mTextEdadAprox = (EditText) detallesView.findViewById(R.id.edadAprox);
+        mSpnLugar = (Spinner) detallesView.findViewById(R.id.spnLugar);
+        mTextOtro = (EditText) detallesView.findViewById(R.id.otro);
+        mImgIdentificacion = (ImageView) detallesView.findViewById(R.id.imgIdentificacion);
+        ImageButton btnAgregarFoto = (ImageButton) detallesView.findViewById(R.id.btnAgregarFoto);
+        ImageButton btnEliminarFoto = (ImageButton) detallesView.findViewById(R.id.btnBorrarFoto);
+
+        btnAgregarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhoto();
+            }
+        });
+
+        btnEliminarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        new AlertDialog.Builder(this).setTitle(getResources().getString(R.string.text_dialog_title))
                 .setView(detallesView)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //LO QUE DEBE DE HACER
+                    public void onClick(DialogInterface dialogInterface, int i) {    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mSwcEncuestaDialog.setChecked(false);
                     }
                 })
                 .show();
     }
+
+    private void takePhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        mPath = getOutputMediaFileUri(Constants.MEDIA_TYPE_IMAGE);
+        startActivityForResult(intent, Constants.CAMARA_REQUEST);
+    }
+
+    private Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    private File getOutputMediaFile(int type) {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES),"E-Personas");
+        if( !mediaStorageDir.exists()){
+            if( !mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if(type == Constants.MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+        }else{
+            return null;
+        }
+        return mediaFile;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bm;
+        switch(requestCode){
+            case Constants.CAMARA_REQUEST:
+                if(resultCode == Activity.RESULT_OK){
+                    bm = (Bitmap) data.getExtras().get("data");
+                    mPath = data.getData();
+                    mImgIdentificacion.setImageBitmap(bm);
+                    String myBase64Image = ConvertBase64.encodeToBase64(bm, Bitmap.CompressFormat.JPEG, 100);
+                    try {
+                        File tarjeta = Environment.getExternalStorageDirectory();
+                        File file = new File(tarjeta.getAbsolutePath(), Constants.IMAGE_PROFILE);
+                        OutputStreamWriter osw = new OutputStreamWriter(
+                                new FileOutputStream(file));
+                        osw.write(myBase64Image);
+                        osw.flush();
+                        osw.close();
+                    }catch(Exception e){}
+                }
+                break;
+        }
+    }
+
 }

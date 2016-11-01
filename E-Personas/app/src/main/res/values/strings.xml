@@ -1,27 +1,88 @@
 <resources>
+    <!-- Nombres App -->
     <string name="app_name">E-Personas</string>
-    <string name="title_login_name">Login</string>
-    <string name="title_main_name">Home</string>
+    <string name="app_name_registro">Registro</string>
+    <string name="app_name_main">Encuestas</string>
+    <string name="app_name_actualizar">Actualizar</string>
 
-    <string name="facebook_app_id">1829555517278298</string>
-
+    <!--Titulos APP-->
     <string name="text_app_slogan">Jalando Parejo</string>
 
-    <string name="text_login_subtitle">Plataforma de co-creación</string>
-    <string name="btn_login_ingresar">Ingresar</string>
-    <string name="text_hint_login_usuario">Usuario</string>
-    <string name="text_hint_login_password">Contraseña</string>
+    <!--ID's API's-->
+    <string name="facebook_app_id">677251319099763</string>
+    <string name="googlemaps_app_id">AIzaSyAPc2NUmT4-HuEGb6wlpLza6gsfNJ6q2oo</string>
 
-    <string name="text_hint_inicio_comencemos">Comencemos</string>
-    <string name="btn_inicio_ir_login">Iniciar con Login</string>
-    <string name="btn_login_registrar">Registrate...</string>
+    <!--Menus-->
+    <string name="action_user_information">Mi información</string>
+    <string name="action_user_encuestas_terminadas">Encuestas enviadas</string>
+    <string name="action_close">Logout</string>
+
+    <!-- AlertDialog-->
     <string name="text_espera_message_load">Espera por favor...</string>
 
-    <string name="btn_desplegar_mapa_sondeo_alameda">Obtener tu posición</string>
+    <!--Inicio-->
+    <string name="text_inicio_comencemos">Comencemos</string>
+    <string name="btn_inicio_ir_login">Iniciar con Login</string>
 
+    <!--Login-->
+    <string name="text_login_subtitle">Plataforma de co-creación</string>
+    <string name="text_btn_login_ingresar">Ingresar</string>
+    <string name="text_hint_login_usuario">email@mail.com</string>
+    <string name="text_hint_login_password">Contraseña</string>
+    <string name="text_btn_login_registrar">Registrate...</string>
     <string name="action_sign_in_short">Sign in</string>
 
-    <string name="txt_bienvenido">Bienvenido</string>
-    <string name="txt_crear_usuario">Crear Usuario</string>
+    <!--Main-->
+    <string name="text_main_continuar">Continuar</string>
+    <string name="text_main_instrucciones_marker">Si la posición encontrada no es correcta manten presionada la pantalla para crear un marcador y arrastralo hasta tu posición.</string>
+    <string name="text_rb_main_bandera_false">Deshabilitado</string>
+    <string name="text_rb_main_bandera_true">Habilitado</string>
 
+    <!--Registro-->
+    <string name="text_registro_title">Registrate...</string>
+    <string name="text_registro_nombre">Nombre</string>
+    <string name="text_registro_apellidos">Apellidos</string>
+    <string name="text_registro_telefono">Teléfono celular</string>
+    <string name="text_registro_email">Correo electrónico</string>
+    <string name="text_registro_password">Contraseña</string>
+    <string name="text_registro_password_confirm">Confirma contraseña</string>
+    <string name="text_registro_password_hint">******</string>
+    <string name="text_registro_fecha_nacimiento">0000/00/00</string>
+    <string name="text_registro_date_picker">Abrir calendario</string>
+    <string name="text_rb_registro_genero_m">Hombre</string>
+    <string name="text_rb_registro_genero_f">Mujer</string>
+    <string name="text_btn_registro_crear_usuario">Crear Perfil</string>
+
+    <!--Actualizacion de datos-->
+    <string name="text_actualizar_title">Actualiza tus datos...</string>
+    <string name="text_btn_actualizar_usuario">Actualiza</string>
+
+    <!-- Encuesta-->
+    <string name="btn_desplegar_mapa_sondeo_alameda">Obtener tu posición</string>
+
+    <!--Alert Informacion complementaria-->
+    <string name="text_hint_alert_encuesta_numero">4425555555</string>
+    <string name="text_hint_alert_encuesta_email">ejemplo@hotmail.com</string>
+    <string name="text_hint_alert_encuesta_facebook">Usuario de facebook</string>
+    <string name="text_hint_alert_encuesta_twitter">Usuario de twitter: @usuario</string>
+    <string name="text_rb_alert_encuesta_genero_m">Hombre</string>
+    <string name="text_rb_alert_encuesta_genero_f">Mujer</string>
+    <string name="text_hint_alert_encuesta_edad_aprox">Edad aprox.</string>
+    <string name="text_hint_alert_encuesta_otro">Otro</string>
+
+    <string name="text_lbl_alert_encuesta_telefono">Teléfono</string>
+    <string name="text_lbl_alert_encuesta_correo">Correo</string>
+    <string name="text_lbl_alert_encuesta_facebook">Facebook</string>
+    <string name="text_lbl_alert_encuesta_twitter">Twitter</string>
+    <string name="text_lbl_alert_encuesta_foto">Foto de identificación</string>
+
+    <!--Información complementaria-->
+    <string name="text_dialog_title">Información Complementaria</string>
+
+    <!--URL Simulacion-->
+    <string name="url">http://ivnacostavargas.xyz/ws/</string>
+
+    <!--URL Produccion
+    <string name="url"></string>
+    -->
 </resources>

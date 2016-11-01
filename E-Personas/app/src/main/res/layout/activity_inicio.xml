@@ -7,11 +7,11 @@
     android:weightSum="2"
     tools:context="com.gob.pgutierrezd.e_personas.views.InicioActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_background">
+        android:layout_weight="0"
+        android:background="@color/color_white">
 
         <ImageView
             android:id="@+id/logo_head"
@@ -27,7 +27,7 @@
             android:text="@string/text_app_slogan"
             android:gravity="center"
             android:textColor="@color/color_orange"
-            android:textSize="@dimen/text_bigsize_title"
+            android:textSize="@dimen/text_bigsmall_title"
             android:layout_below="@id/logo_head"
             android:textStyle="bold"
             />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/logo_inicio"
             android:layout_below="@+id/title"
-            android:layout_centerVertical="true"/>
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
@@ -51,41 +51,33 @@
             android:id="@+id/textComenzamos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text_hint_inicio_comencemos"
+            android:text="@string/text_inicio_comencemos"
             android:gravity="center"
             android:textSize="@dimen/text_size_sub_title"
             android:textColor="@color/color_white"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/horizontal_margin_medium"
-            android:layout_marginBottom="@dimen/vertical_medium"
+            android:layout_marginTop="@dimen/horizontal_margin_small"
+            android:layout_marginBottom="@dimen/horizontal_margin_small"
             />
 
-        <!--<Button
-            android:id="@+id/loginFacebook"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/textComenzamos"
-            android:text="Connect with Facebook"
-            android:background="@color/color_blue"
-            android:textColor="@color/color_white"/>-->
         <com.facebook.login.widget.LoginButton
             android:id="@+id/btn_login_facebook"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/btn_big_size_width"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/textComenzamos"/>
 
         <Button
             android:id="@+id/btn_go_login"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_small_size_hight"
             android:text="@string/btn_inicio_ir_login"
             android:textColor="@color/color_white"
             android:background="@android:color/transparent"
             android:layout_below="@+id/btn_login_facebook"
+            android:layout_marginTop="@dimen/horizontal_margin_small"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/text_size_sub_title"/>
+            android:textSize="@dimen/text_size_15"/>
 
     </RelativeLayout>
 

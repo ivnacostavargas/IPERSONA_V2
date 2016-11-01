@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_marginLeft="20dp"
             android:textAlignment="center"
             android:layout_marginTop="10dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/color_black"/>
     </LinearLayout>
 
     <TextView
@@ -33,7 +32,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:text="1.- ¿Qué opinión tiene de que se realice la Obra?"
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_black"/>
 
     <EditText
         android:id="@+id/Obrap1OP0"
@@ -92,7 +91,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:text="2.- ¿En que considera que existe mayor riesgo en seguridad y accidentes viales? Por ..."
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_black"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,7 +152,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:text="3.- ¿Cuales son los temas de riesgo que percibe dentro y fuera del fraccionamiento?"
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_black"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -215,7 +214,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="5dp"
         android:text="Especifique:"
-        android:textColor="@color/black"/>
+        android:textColor="@color/color_black"/>
     <EditText
         android:id="@+id/Obrap4OP5"
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/color_background"
+    android:background="@color/color_white"
     tools:context=".views.LoginActivity">
 
     <ImageView
@@ -44,6 +44,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_margin_large"
         android:layout_below="@+id/text_subtitle">
 
         <EditText
@@ -51,9 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/text_hint_login_usuario"
+            android:text="ivnacostavargas@gmail.com"
             android:background="@drawable/shape_round"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:drawableLeft="@drawable/ic_action_person"/>
 
         <EditText
@@ -66,25 +69,28 @@
             android:inputType="textPassword"
             android:imeActionId="@+id/login"
             android:imeActionLabel="@string/action_sign_in_short"
+            android:text="123"
             android:imeOptions="actionUnspecified"
             android:drawableLeft="@drawable/ic_action_accounts"/>
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/btn_big_size_width"
             android:layout_height="wrap_content"
-            android:text="@string/btn_login_ingresar"
+            android:text="@string/text_btn_login_ingresar"
             android:background="@color/color_blue"
             android:textColor="@color/color_white"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center"
             android:drawableRight="@drawable/ic_action_accept"/>
         <Button
             android:id="@+id/btnSingUp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_small_size_hight"
             android:background="@android:color/transparent"
-            android:text="@string/btn_login_registrar"
+            android:text="@string/text_btn_login_registrar"
             android:textColor="@color/color_blue"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_gravity="center"/>
 
     </LinearLayout>

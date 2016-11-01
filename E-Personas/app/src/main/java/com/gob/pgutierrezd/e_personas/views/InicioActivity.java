@@ -1,12 +1,13 @@
 package com.gob.pgutierrezd.e_personas.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -14,24 +15,32 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
+import com.facebook.LoggingBehavior;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.gob.pgutierrezd.e_personas.R;
-import com.gob.pgutierrezd.e_personas.utils.Connectivity;
+import com.gob.pgutierrezd.e_personas.interfaces.inicio.InicioPresenter;
+import com.gob.pgutierrezd.e_personas.interfaces.inicio.InicioView;
+import com.gob.pgutierrezd.e_personas.presenters.InicioPresenterImpl;
+import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class InicioActivity extends AppCompatActivity{
+import java.util.Arrays;
 
-    private Button btnGoLogin;
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
-    private String email,name,first_name,last_name;
+public class InicioActivity extends AppCompatActivity implements InicioView{
+
+    private Button mBtnGoLogin;
+    private LoginButton mLoginButton;
+    private CallbackManager mCallbackManager;
+    private ShowMessageDialog mShowMessageDialog;
+    private InicioPresenter mInicioPresenter;
     private ShowMessageDialog showMessageDialog;
-    private Connectivity connectivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,85 +48,100 @@ public class InicioActivity extends AppCompatActivity{
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_inicio);
         findViews();
-        callbackManager = CallbackManager.Factory.create();
+        validateSession();
+        mInicioPresenter = new InicioPresenterImpl(this,this);
+        mCallbackManager = CallbackManager.Factory.create();
+        showMessageDialog = new ShowMessageDialog(this);
 
-        connectivity = new Connectivity(this);
-
-        btnGoLogin.setOnClickListener(new View.OnClickListener() {
+        mBtnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                showMessageDialog.showMessageLoad();
-                new android.os.Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showMessageDialog.closeMessage();
-                        startActivity(new Intent(InicioActivity.this, LoginActivity.class));
-                    }
-                }, 1000);
+                mInicioPresenter.goToLogin();
             }
         });
 
-        //loginButton.setReadPermissions("email");
+        mLoginButton.setReadPermissions(Constants.PERMISSIONS_FACEBOOK);
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                // App code
-                Log.d("AA","Login onSuccess.");
-                if(connectivity.conectadoRedMovil() || connectivity.conectadoWifi()) {
-                    loginWithFacebookSuccess(loginResult);
-                }else{
-                    showMessageDialog.showMessageInfo("Erro de conexion","No cuentas con conexion a internet.");
-                }
+                mInicioPresenter.validateAccessFacebook(loginResult);
             }
 
             @Override
             public void onCancel() {
-                // App code
-                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                Log.d("AA","Login attempt canceled.");
-                showMessageDialog.showMessageInfo("Erro de conexion", "No cuentas con conexion a internet.");
+                mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
+                mShowMessageDialog.showMessageInfo("Advertencia", "Cancelaste inicio de sesion.");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
-                showMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                Log.d("AA", "Login attempt failed.");
-                showMessageDialog.showMessageInfo("Erro de conexion", "No cuentas con conexion a internet.");
+                mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
+                mShowMessageDialog.showMessageInfo("Error", "Error al iniciar sesion.");
             }
         });
+        new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(final Profile oldProfile,final Profile currentProfile) {
+            }
+        };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void showProgress() {
+        showMessageDialog.showMessageLoad();
+    }
+
+    @Override
+    public void hideProgress() {
+        showMessageDialog.closeMessage();
+    }
+
+    @Override
+    public void loginFacebook() {
+        Intent intent = new Intent(InicioActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goLogin() {
+        mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
+        mShowMessageDialog.showMessageLoad();
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mShowMessageDialog.closeMessage();
+                startActivity(new Intent(InicioActivity.this, LoginActivity.class));
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onFailLogin() {
+        mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
+        mShowMessageDialog.showMessageInfo("Error", "No se pudo iniciar sesion con esta cuenta de facebook.");
     }
 
     private void findViews() {
-        btnGoLogin = (Button) findViewById(R.id.btn_go_login);
-        loginButton = (LoginButton) findViewById(R.id.btn_login_facebook);
+        mBtnGoLogin = (Button) findViewById(R.id.btn_go_login);
+        mLoginButton = (LoginButton) findViewById(R.id.btn_login_facebook);
     }
 
-    private void loginWithFacebookSuccess(final LoginResult loginResult){
-        GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                Log.d("JSON", "" + response.getJSONObject().toString());
-
-                try {
-                    email = object.getString("email");
-                    name = object.getString("name");
-                    first_name = object.optString("first_name");
-                    last_name = object.optString("last_name");
-                    Log.d("AA", "Email " + email
-                                    + ", Nombre " + name
-                                    + ", Primer nombre " + first_name
-                                    + ", Apellido " + last_name
-                    );
-                    //LoginManager.getInstance().logOut();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    private void validateSession(){
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
+        String id = preferences.getString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG);
+        if(id.length() > 0 && !id.equals("id")){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
 }

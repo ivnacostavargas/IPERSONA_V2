@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
-        presenter = new LoginPresenterImpl(this);
+        presenter = new LoginPresenterImpl(this, this);
         closeKeyboard = new CloseKeyboard(this);
         connectivity = new Connectivity(this);
 
@@ -51,8 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         mBtnSingUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),RegistroUsuarioActivity.class);
-                startActivity(intent);
+                singUp();
             }
         });
 
@@ -100,8 +99,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void navigateToHome() {
-        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void errorConnectionServer() {
+        showMessageDialog.closeMessage();
     }
 
     public void login(){
@@ -112,6 +118,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }else{
             showMessageDialog.showMessageInfo("Error","No cuentas con conexion a internet");
         }
+    }
+
+    public void singUp(){
+        Intent intent = new Intent(getApplicationContext(),RegistroUsuarioActivity.class);
+        startActivity(intent);
     }
 
     private void findViews(){
