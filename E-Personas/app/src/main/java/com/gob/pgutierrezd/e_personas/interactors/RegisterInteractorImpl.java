@@ -27,11 +27,11 @@ public class RegisterInteractorImpl implements RegistroInteractor {
                 || loginRegister.getmPassword().isEmpty() || loginRegister.getmGenero().isEmpty()){
             listener.setFieldErrorEmpty();
         }else{
-            requestDataRegister(context.getResources().getString(R.string.url), loginRegister, listener, context);
+            requestDataRegister(context.getResources().getString(R.string.url), loginRegister, listener, context, loginRegister.getmCorreo());
         }
     }
 
-    private void requestDataRegister(String url, LoginRegister user, OnRegisterFinishedListener listener, Context context){
+    private void requestDataRegister(String url, LoginRegister user, OnRegisterFinishedListener listener, Context context, String email){
         RequestPackage requestPackage = new RequestPackage();
         String peticion = "{\"nombre\":\""+user.getmNombre()+"\","
                 +"\"apellidos\":\""+user.getmApellidos()+"\","
@@ -44,7 +44,7 @@ public class RegisterInteractorImpl implements RegistroInteractor {
         requestPackage.setUri(url + "login.php");
         requestPackage.setMethod("POST");
         requestPackage.setParams("json", peticion);
-        RegisterUserTask registerUserTask = new RegisterUserTask(listener, context);
+        RegisterUserTask registerUserTask = new RegisterUserTask(listener, context, email);
         registerUserTask.execute(requestPackage);
     }
 
@@ -52,10 +52,12 @@ public class RegisterInteractorImpl implements RegistroInteractor {
 
         private OnRegisterFinishedListener listener;
         private Context context;
+        private String email;
 
-        public RegisterUserTask(OnRegisterFinishedListener listener, Context context){
+        public RegisterUserTask(OnRegisterFinishedListener listener, Context context, String email){
             this.listener = listener;
             this.context = context;
+            this.email = email;
         }
 
         @Override
@@ -85,6 +87,7 @@ public class RegisterInteractorImpl implements RegistroInteractor {
                             SharedPreferences preferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, parent.getString("idUsuario"));
+                            editor.putString(Constants.SHARED_PREFERENCES_LOGIN_EMAIL_FLAG, email);
                             editor.commit();
                             Toast.makeText(context, child1.getString("mensaje"), Toast.LENGTH_LONG).show();
                             listener.navigateToHome();
