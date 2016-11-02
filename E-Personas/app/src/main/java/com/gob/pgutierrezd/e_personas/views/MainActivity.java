@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -32,6 +34,8 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.gob.pgutierrezd.e_personas.R;
+import com.gob.pgutierrezd.e_personas.sqlite.ConnectDataBase;
+import com.gob.pgutierrezd.e_personas.sqlite.DataBaseOpenHelper;
 import com.gob.pgutierrezd.e_personas.utils.AlarmReceiver;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.googlemaps.MapFragment;
@@ -59,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Switch mSwitchChangeStatus;
     private String[] coord;
 
+    private SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getMap();
         coord = new String[2];
 
+        try {
+            db = new DataBaseOpenHelper(this).getWritableDatabase();
+        }catch (SQLException e){
+            Log.d("LOGTAG", "Error al crear la base de datos " + e);
+        }
         mSwitchChangeStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
