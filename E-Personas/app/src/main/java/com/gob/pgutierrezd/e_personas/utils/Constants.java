@@ -33,6 +33,9 @@ public class Constants {
 
     public static final int DATE_DIALOG_ID = 999;
 
+    //SharePreferences para verificar ecuesta activa
+    public static final String SHARED_PREFERENCES_COORDS = "coords";
+    public static final String SHARED_PREFERENCES_COORDS_FLAG = "false";
 
     //CONSTANTES PARA LA BASE DE DATOS
     //Tabla de encuestas

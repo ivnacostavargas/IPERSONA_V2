@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -85,10 +86,14 @@ public class GpsLocation implements LocationListener {
             }
         }catch (SecurityException ex){}
 
-        String[] data = new String[]{
-            String.valueOf(coords.latitude),
-            String.valueOf(coords.longitude)
-        };
+        String[] data = new String[2];
+        try{
+            data[0] = String.valueOf(coords.latitude);
+            data[1] = String.valueOf(coords.longitude);
+        }catch (Exception e){
+            data[0] = "";
+            data[1] = "";
+        }
         return data;
     }
 

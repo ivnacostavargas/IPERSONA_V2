@@ -7,5 +7,6 @@ public interface EncuestaView {
 
     void showProgress();
     void hideProgress();
+    String getCoordsPerMinute();
 
 }

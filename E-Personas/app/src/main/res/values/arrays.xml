@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lugar_entrevista_array">
+        <item>Casa habitación</item>
+        <item>En la calle</item>
+        <item>En el parque</item>
+        <item>En el comercio</item>
+        <item>Parada de camión</item>
+        <item>En el mercado</item>
+        <item>Fuera de la iglesia</item>
+        <item>Otro</item>
+    </string-array>
+</resources>

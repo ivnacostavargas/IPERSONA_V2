@@ -1,21 +1,11 @@
 package com.gob.pgutierrezd.e_personas.views;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -34,9 +24,6 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.gob.pgutierrezd.e_personas.R;
-import com.gob.pgutierrezd.e_personas.sqlite.ConnectDataBase;
-import com.gob.pgutierrezd.e_personas.sqlite.DataBaseOpenHelper;
-import com.gob.pgutierrezd.e_personas.utils.AlarmReceiver;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.googlemaps.MapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,10 +32,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMapClickListener {
@@ -63,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Switch mSwitchChangeStatus;
     private String[] coord;
 
-    private SQLiteDatabase db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,17 +56,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getMap();
         coord = new String[2];
 
-        try {
-            db = new DataBaseOpenHelper(this).getWritableDatabase();
-        }catch (SQLException e){
-            Log.d("LOGTAG", "Error al crear la base de datos " + e);
-        }
         mSwitchChangeStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 coord[0] = null;
                 coord[1] = null;
                 if(isChecked){
+                    SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(Constants.SHARED_PREFERENCES_COORDS_FLAG, "true");
+                    editor.commit();
                     mSwitchChangeStatus.setText(getResources().getString(R.string.text_rb_main_bandera_true));
                 }else{
                     mSwitchChangeStatus.setText(getResources().getString(R.string.text_rb_main_bandera_false));
@@ -168,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onMyLocationButtonClick() {
         coord[0] = String.valueOf(mMap.getCameraPosition().target.latitude);
         coord[1] = String.valueOf(mMap.getCameraPosition().target.longitude);
-        Log.d("AA", "Coordenadas al presionar boton localización " + mMap.getCameraPosition());
         mMap.clear();
         return false;
     }
@@ -182,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .draggable(true));
             coord[0] = String.valueOf(mMap.getCameraPosition().target.latitude);
             coord[1] = String.valueOf(mMap.getCameraPosition().target.longitude);
-            Log.d("AA","Coordenadas al colocar marcador "+ mMap.getCameraPosition().target);
         }else{
             mMap.clear();
         }
@@ -234,19 +212,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(this, "Error de permisos", Toast.LENGTH_LONG).show();
             }
         }
-    }
-    private void notificacion(){
-        Context context = getApplicationContext();
-        PendingIntent alarmIntent;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
-        calendar.set(Calendar.MINUTE, 1);
-
-        AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        service.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 30000, alarmIntent);
     }
 }
