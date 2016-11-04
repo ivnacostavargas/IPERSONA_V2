@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,15 +28,20 @@ import android.widget.Switch;
 
 import com.gob.pgutierrezd.e_personas.R;
 import com.gob.pgutierrezd.e_personas.interfaces.encuesta.EncuestaView;
+import com.gob.pgutierrezd.e_personas.models.CoordsInterview;
 import com.gob.pgutierrezd.e_personas.utils.AlarmReceiver;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ConvertBase64;
+import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 import com.gob.pgutierrezd.e_personas.utils.TakePhoto;
+import com.gob.pgutierrezd.e_personas.utils.ValidateFields;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class EncuestaActivity extends AppCompatActivity implements EncuestaView , View.OnClickListener{
 
@@ -69,12 +75,17 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     private RadioButton mRbHombre, mRbMujer;
     private Spinner mSpnLugar;
     private ImageView mImgIdentificacion;
+    private ImageButton btnAgregarFoto, btnEliminarFoto;
+
+    private ShowMessageDialog mShowMessageDialog;
+    private ValidateFields mValidateFields;
 
     private Uri mPath;
     private SharedPreferences mPreferences;
     private PendingIntent mAlarmIntent;
     private ArrayAdapter<CharSequence> adapter;
     private Context context;
+    private List<CoordsInterview> coords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +93,22 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         setContentView(R.layout.activity_encuesta);
         context = getApplicationContext();
         findViews();
-        //getCoordsPerMinute();
+        coords = new ArrayList<>();
+        getCoordsPerMinute();
+        mShowMessageDialog = new ShowMessageDialog(this);
+        mValidateFields = new ValidateFields();
         mPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
         mBtnEnviarEncuesta.setOnClickListener(this);
         mSwcEncuestaDialog.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == event.KEYCODE_BACK) {
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -105,12 +128,35 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
 
     @Override
     public void showProgress() {
-
+        mShowMessageDialog.showMessageLoad();
     }
 
     @Override
     public void hideProgress() {
+        mShowMessageDialog.closeMessage();
+    }
 
+    @Override
+    public void setFieldErrorEmptyInterview() {
+        mValidateFields = new ValidateFields();
+        mValidateFields.validateText(new EditText[]{
+                mTPregunta5R2ColSegura, mTPregunta8R2ColSegura, mTPregunta9R1ColSegura, mTPregunta1R1IndObra, mTPregunta3R6IndObra,
+                mTPregunta5R1SondAlameda
+        });
+    }
+
+    @Override
+    public void setFieldErrorEmptyComplementInformation() {
+        mValidateFields = new ValidateFields();
+        mValidateFields.validateText(new EditText[]{
+                mTextTelefono, mTextCorreo, mTxtFacebook, mTxtTwitter, mTextEdadAprox, mTextOtro
+        });
+    }
+
+    @Override
+    public void finishInterview() {
+        stopGetCoords();
+        backToMain();
     }
 
     @Override
@@ -122,23 +168,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     public void informacionComplementaria(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View detallesView = inflater.inflate(R.layout.dialog_informacion_complementaria_encuesta, null);
-
-        mTextTelefono = (EditText) detallesView.findViewById(R.id.telefono);
-        mTextCorreo = (EditText) detallesView.findViewById(R.id.correo);
-        mTxtFacebook = (EditText) detallesView.findViewById(R.id.fecebook);
-        mTxtTwitter = (EditText) detallesView.findViewById(R.id.twitter);
-        mRbHombre = (RadioButton) detallesView.findViewById(R.id.rb_hombre);
-        mRbMujer = (RadioButton) detallesView.findViewById(R.id.rb_mujer);
-        mTextEdadAprox = (EditText) detallesView.findViewById(R.id.edadAprox);
-        mSpnLugar = (Spinner) detallesView.findViewById(R.id.spnLugar);
-        mTextOtro = (EditText) detallesView.findViewById(R.id.otro);
-        mImgIdentificacion = (ImageView) detallesView.findViewById(R.id.imgIdentificacion);
-        ImageButton btnAgregarFoto = (ImageButton) detallesView.findViewById(R.id.btnAgregarFoto);
-        ImageButton btnEliminarFoto = (ImageButton) detallesView.findViewById(R.id.btnBorrarFoto);
-
-        adapter = ArrayAdapter.createFromResource(this, R.array.lugar_entrevista_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpnLugar.setAdapter(adapter);
+        findViewsDialog(detallesView);
 
         final TakePhoto takePhoto = new TakePhoto(this);
 
@@ -148,7 +178,6 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
                 takePhoto.getPhoto();
             }
         });
-
         btnEliminarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,14 +225,13 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     }
 
     private void getCoordsAlarm(){
-        int comprobacionIntervaloSegundos = 30;
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 10);
         AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         mAlarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        service.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), comprobacionIntervaloSegundos * 1000, mAlarmIntent);
+        service.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Constants.INTERVALO_SEGUNDOS * 1000, mAlarmIntent);
     }
 
     private void stopGetCoords(){
@@ -284,5 +312,24 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         mSwcEncuestaDialog = (Switch)findViewById(R.id.pregunta6_respuesta_sondeo_alameda);
 
         mBtnEnviarEncuesta = (Button) findViewById(R.id.enviarEncuesta);
+    }
+
+    private void findViewsDialog(View detallesView){
+        mTextTelefono = (EditText) detallesView.findViewById(R.id.telefono);
+        mTextCorreo = (EditText) detallesView.findViewById(R.id.correo);
+        mTxtFacebook = (EditText) detallesView.findViewById(R.id.fecebook);
+        mTxtTwitter = (EditText) detallesView.findViewById(R.id.twitter);
+        mRbHombre = (RadioButton) detallesView.findViewById(R.id.rb_hombre);
+        mRbMujer = (RadioButton) detallesView.findViewById(R.id.rb_mujer);
+        mTextEdadAprox = (EditText) detallesView.findViewById(R.id.edadAprox);
+        mSpnLugar = (Spinner) detallesView.findViewById(R.id.spnLugar);
+        mTextOtro = (EditText) detallesView.findViewById(R.id.otro);
+        mImgIdentificacion = (ImageView) detallesView.findViewById(R.id.imgIdentificacion);
+        btnAgregarFoto = (ImageButton) detallesView.findViewById(R.id.btnAgregarFoto);
+        btnEliminarFoto = (ImageButton) detallesView.findViewById(R.id.btnBorrarFoto);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.lugar_entrevista_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpnLugar.setAdapter(adapter);
     }
 }

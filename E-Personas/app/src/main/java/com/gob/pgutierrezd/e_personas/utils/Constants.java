@@ -29,6 +29,7 @@ public class Constants {
     public static final int MEDIA_TYPE_IMAGE = 1;
 
     public final static String IMAGE_PROFILE="base64.txt";
+    public final static int INTERVALO_SEGUNDOS = 30;
 
 
     public static final int DATE_DIALOG_ID = 999;

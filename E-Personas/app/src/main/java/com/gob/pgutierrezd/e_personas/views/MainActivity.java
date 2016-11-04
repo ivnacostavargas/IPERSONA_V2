@@ -1,6 +1,7 @@
 package com.gob.pgutierrezd.e_personas.views;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name_main));
         getMap();
         coord = new String[2];
+        checkFlagCoords();
 
         mSwitchChangeStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -78,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 if(coord[0] != null && coord[1] != null) {
-                    startActivity(new Intent(MainActivity.this, EncuestaActivity.class));
+                    Intent intent = new Intent(MainActivity.this, EncuestaActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(MainActivity.this,"No podemos encontrar tu posición, por favor usa el marcador o presiona el boton para encontrar tu posición.",Toast.LENGTH_LONG).show();
                 }
@@ -163,6 +167,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             coord[1] = String.valueOf(mMap.getCameraPosition().target.longitude);
         }else{
             mMap.clear();
+        }
+    }
+
+    private void checkFlagCoords(){
+        SharedPreferences preferencesCoords = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
+        String flag_coords = preferencesCoords.getString(Constants.SHARED_PREFERENCES_COORDS_FLAG, Constants.SHARED_PREFERENCES_COORDS_FLAG);
+        if(flag_coords.equals("true")){
+            SharedPreferences.Editor editor = preferencesCoords.edit();
+            editor.clear();
+            editor.commit();
         }
     }
 
