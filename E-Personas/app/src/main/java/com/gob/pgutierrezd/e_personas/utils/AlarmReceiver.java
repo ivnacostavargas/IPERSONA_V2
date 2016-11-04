@@ -3,7 +3,9 @@ package com.gob.pgutierrezd.e_personas.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -11,20 +13,24 @@ import android.widget.Toast;
  */
 public class AlarmReceiver extends BroadcastReceiver{
 
-    private Context context;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        this.context = context;
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "TAG");
         wl.acquire();
-        Toast.makeText(context,"Hola",Toast.LENGTH_LONG).show();
-        /*if(){
-            notification();
-            dos horas = 1000*60*60*2 = 7200000
-            1 min = 1000 * 60 = 60000
-        }*/
+        SharedPreferences preferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, context.MODE_PRIVATE);
+        String flag_coords = preferences.getString(Constants.SHARED_PREFERENCES_COORDS_FLAG, Constants.SHARED_PREFERENCES_COORDS_FLAG);
+        String[] coords = new String[2];
+        Log.d("AAA", "Entra a coords Alarm");
+
+        if(flag_coords.equals("true")){
+            Log.d("AAA",flag_coords);
+            GpsLocation gpsLocation = new GpsLocation(context);
+            coords = gpsLocation.getLocationGPS();
+
+            Toast.makeText(context,"Coordenadas: "+coords[0]+","+coords[1],Toast.LENGTH_LONG).show();
+            Log.d("AAA", "Coordenadas: "+coords[0]+","+coords[1]);
+        }
         wl.release();
     }
 

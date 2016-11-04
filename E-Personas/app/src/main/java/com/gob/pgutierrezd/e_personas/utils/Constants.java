@@ -29,10 +29,14 @@ public class Constants {
     public static final int MEDIA_TYPE_IMAGE = 1;
 
     public final static String IMAGE_PROFILE="base64.txt";
+    public final static int INTERVALO_SEGUNDOS = 30;
 
 
     public static final int DATE_DIALOG_ID = 999;
 
+    //SharePreferences para verificar ecuesta activa
+    public static final String SHARED_PREFERENCES_COORDS = "coords";
+    public static final String SHARED_PREFERENCES_COORDS_FLAG = "false";
 
     //CONSTANTES PARA LA BASE DE DATOS
     //Tabla de encuestas

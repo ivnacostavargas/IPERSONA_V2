@@ -58,7 +58,64 @@
     <string name="text_btn_actualizar_usuario">Actualiza</string>
 
     <!-- Encuesta-->
-    <string name="btn_desplegar_mapa_sondeo_alameda">Obtener tu posición</string>
+    <string name="text_encuesta_titulo_colonia_Segura">Colonia Segura</string>
+    <string name="text_encuesta_titulo_induccion_obra">Inducción de Obra</string>
+    <string name="text_encuesta_titulo_lotes_baldios">Lotes Baldíos</string>
+    <string name="text_encuesta_titulo_sondeo_alameda">Sondeo Alameda</string>
+
+    <string name="text_encuesta_comentarios">Comentarios</string>
+
+    <string name="text_encuesta_colonia_segura_question1">1.- ¿Que opinión tienes de las acciones de la Policía Municipal en tu Colonia?</string>
+    <string name="text_encuesta_colonia_segura_question2">2.- ¿Le gustaría que la Policía Municipal realizara patrullajes con mayor frecuencia en su Colonia?</string>
+    <string name="text_encuesta_colonia_segura_question3">3.- ¿En que horario estima que debe realiarse el patrullaje en su colonia? Por ...</string>
+    <string name="text_encuesta_colonia_segura_question4">4.- ¿Como considera las acciones de Municipio en su Colonia?</string>
+    <string name="text_encuesta_colonia_segura_question5">5.- ¿Tiene algún Tramite pendiente con la Administración Municipal?</string>
+    <string name="text_encuesta_colonia_segura_question6">6.- ¿Como concideras que a sido el Gobierno de Marcos Aguilar?</string>
+    <string name="text_encuesta_colonia_segura_question7">7.- ¿Que esperas de Marcos Aguilar?</string>
+    <string name="text_encuesta_colonia_segura_question8">8.- ¿Practica o tiene conocidos que practiquen algún deporte dentro de su Colonia?</string>
+    <string name="text_encuesta_colonia_segura_question9">9.- ¿Cual es la Principal necesidad en tu Colonia?</string>
+
+    <string name="text_encuesta_induccion_obra_question1">1.- ¿Qué opinión tiene de que se realice la Obra?</string>
+    <string name="text_encuesta_induccion_obra_question2">2.- ¿En que considera que existe mayor riesgo en seguridad y accidentes viales? Por ...</string>
+    <string name="text_encuesta_induccion_obra_question3">3.- ¿Cuales son los temas de riesgo que percibe dentro y fuera del fraccionamiento?</string>
+
+    <string name="text_encuesta_lotes_baldios_question1">1.- ¿En su Colonia hay lotes Baldíos?</string>
+    <string name="text_encuesta_lotes_baldios_question2">2.- ¿Los Considera de riesgo?</string>
+    <string name="text_encuesta_lotes_baldios_question3">3.- ¿Usted cre que deben atenderse?</string>
+    <string name="text_encuesta_lotes_baldios_question4">4.- ¿Sabe si el Municipio ha realizado\n limpieza en los lotes?</string>
+    <string name="text_encuesta_lotes_baldios_question5">5.- ¿Como considera que es la intervencion del Municipio en el desmalezado de lotes?</string>
+
+    <string name="text_encuesta_sondeo_alameda_question1">1.- ¿Le gusta la apariencia que guarda\n actualmente la alameda?</string>
+    <string name="text_encuesta_sondeo_alameda_question2">2.- ¿Usted se siente seguro al transitar\n por la zona de la alameda?</string>
+    <string name="text_encuesta_sondeo_alameda_question3">3.- ¿Le gustaría que la alameda fuera\n un lugar para el recreo y el esparcimiento\n de los niños y las familias?</string>
+    <string name="text_encuesta_sondeo_alameda_question4">4.- ¿Cual considera el principal problema de la\n alameda?</string>
+    <string name="text_encuesta_sondeo_alameda_question5">5.- ¿Que haría usted para mejorar la imagen de la\n alameda?</string>
+    <string name="text_encuesta_sondeo_alameda_question6">6.- ¿Quiere recibir los Resultados?</string>
+
+        <!--Respuestas-->
+        <string name="respuesta1">Muy Buena</string>
+        <string name="respuesta2">Buena</string>
+        <string name="respuesta3">Regular</string>
+        <string name="respuesta4">Mala</string>
+        <string name="respuesta5">La Mañana</string>
+        <string name="respuesta6">El Medio Día</string>
+        <string name="respuesta7">La Tarde</string>
+        <string name="respuesta8">La Noche</string>
+        <string name="respuesta9">Cercania con la gente</string>
+        <string name="respuesta10">Información Oportuna de las acciones</string>
+        <string name="respuesta11">Mas Seguridad</string>
+        <string name="respuesta12">Obra Publica y Servicios</string>
+        <string name="respuesta13">Cuentas Claras</string>
+        <string name="respuesta14">Captura el nombre de la obra</string>
+        <string name="respuesta15">Inseguridad</string>
+        <string name="respuesta16">Inundación</string>
+        <string name="respuesta17">Accidentes</string>
+        <string name="respuesta18">Cruce de Peatones</string>
+        <string name="respuesta19">Otro?</string>
+        <string name="respuesta20">Capture el tipo de riesgo</string>
+        <string name="respuesta21">La Inseguridad</string>
+        <string name="respuesta22">El Ambulantaje</string>
+        <string name="respuesta23">La Moviliadad</string>
 
     <!--Alert Informacion complementaria-->
     <string name="text_hint_alert_encuesta_numero">4425555555</string>

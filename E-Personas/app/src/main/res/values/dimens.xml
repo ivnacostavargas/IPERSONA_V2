@@ -47,4 +47,7 @@
     <dimen name="width_edad">150dp</dimen>
     <dimen name="width_lugar_encuesta">100dp</dimen>
 
+    <!--Dimmens auxiliares-->
+    <dimen name="separate_radios">50dp</dimen>
+
 </resources>

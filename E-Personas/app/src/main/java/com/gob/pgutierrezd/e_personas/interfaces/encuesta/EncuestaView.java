@@ -7,5 +7,9 @@ public interface EncuestaView {
 
     void showProgress();
     void hideProgress();
+    void setFieldErrorEmptyInterview();
+    void setFieldErrorEmptyComplementInformation();
+    void finishInterview();
+    String getCoordsPerMinute();
 
 }
