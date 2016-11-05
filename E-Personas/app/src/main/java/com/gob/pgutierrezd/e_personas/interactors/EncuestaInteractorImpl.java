@@ -93,7 +93,7 @@ public class EncuestaInteractorImpl implements EncuestaInteractor{
                 valuesExtra.put(Constants.TWITTER, informationComplement.getTwitter());
                 valuesExtra.put(Constants.SEXO, informationComplement.getGenero());
                 valuesExtra.put(Constants.EDAD, informationComplement.getEdad());
-                valuesExtra.put(Constants.FECHA, "");
+                valuesExtra.put(Constants.FECHA, informationComplement.getFecha());
                 valuesExtra.put(Constants.FOTO,informationComplement.getFoto());
                 database.insert(Constants.TABLE_INFORMACION_COMPLEMENTARIA, null, valuesExtra);
             }

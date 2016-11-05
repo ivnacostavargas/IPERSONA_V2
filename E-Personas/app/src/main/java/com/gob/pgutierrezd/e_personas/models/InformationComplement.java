@@ -1,5 +1,8 @@
 package com.gob.pgutierrezd.e_personas.models;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * Created by pgutierrezd on 04/11/2016.
  */
@@ -63,11 +66,8 @@ public class InformationComplement {
     }
 
     public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+        Calendar c = new GregorianCalendar();
+        return c.get(Calendar.DAY_OF_MONTH)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.YEAR);
     }
 
     public String getFoto() {
