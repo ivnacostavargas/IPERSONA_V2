@@ -162,8 +162,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     public void setFieldErrorEmptyInterview() {
         mValidateFields = new ValidateFields();
         mValidateFields.validateText(new EditText[]{
-                mTPregunta5R2ColSegura, mTPregunta8R2ColSegura, mTPregunta9R1ColSegura, mTPregunta1R1IndObra, mTPregunta3R6IndObra,
-                mTPregunta5R1SondAlameda, mTextOtro
+                mTPregunta9R1ColSegura, mTPregunta1R1IndObra,mTPregunta5R1SondAlameda
         });
     }
 
