@@ -4,6 +4,7 @@
     <string name="app_name_registro">Registro</string>
     <string name="app_name_main">Encuestas</string>
     <string name="app_name_actualizar">Actualizar</string>
+    <string name="app_name_historial">Encuestas realizadas</string>
 
     <!--Titulos APP-->
     <string name="text_app_slogan">Jalando Parejo</string>
