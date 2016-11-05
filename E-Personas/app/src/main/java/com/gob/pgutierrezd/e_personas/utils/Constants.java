@@ -43,7 +43,7 @@ public class Constants {
     public static final int DATABASE_VERSION = 1;
     //Tabla de encuestas
     public static final String TABLE_ENCUESTAS = "encuestas";
-    public static final String IDENCUESTA = "idencuesta";
+    public static final String IDENCUESTA = "_id";
     public static final String IDUSUARIO = "idusuario";
     public static final String IDINFO = "idinfo";
     public static final String CS_OPINION_POLICIA = "cs_opinion_policia";
