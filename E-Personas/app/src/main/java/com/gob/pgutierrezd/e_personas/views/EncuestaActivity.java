@@ -27,17 +27,26 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.gob.pgutierrezd.e_personas.R;
+import com.gob.pgutierrezd.e_personas.interfaces.encuesta.EncuestaPresenter;
 import com.gob.pgutierrezd.e_personas.interfaces.encuesta.EncuestaView;
+import com.gob.pgutierrezd.e_personas.models.AnswersInterview;
 import com.gob.pgutierrezd.e_personas.models.CoordsInterview;
+import com.gob.pgutierrezd.e_personas.models.InformationComplement;
+import com.gob.pgutierrezd.e_personas.presenters.EncuestaPresenterImpl;
 import com.gob.pgutierrezd.e_personas.utils.AlarmReceiver;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ConvertBase64;
+import com.gob.pgutierrezd.e_personas.utils.GpsLocation;
 import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 import com.gob.pgutierrezd.e_personas.utils.TakePhoto;
 import com.gob.pgutierrezd.e_personas.utils.ValidateFields;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,12 +77,14 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     private CheckBox mCPregunta4R1SondAlameda, mCPregunta4R2SondAlameda, mCPregunta4R3SondAlameda;
     private Switch mSwcEncuestaDialog;
 
+    private Spinner mSpnLugar;
+    private EditText mTextOtro;
+
     private Button mBtnEnviarEncuesta;
 
     //Campos de dialogo informacion complementaria
-    private EditText mTextTelefono, mTextCorreo, mTxtFacebook, mTxtTwitter, mTextEdadAprox, mTextOtro;
+    private EditText mTextTelefono, mTextCorreo, mTxtFacebook, mTxtTwitter, mTextEdadAprox;
     private RadioButton mRbHombre, mRbMujer;
-    private Spinner mSpnLugar;
     private ImageView mImgIdentificacion;
     private ImageButton btnAgregarFoto, btnEliminarFoto;
 
@@ -87,6 +98,10 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     private Context context;
     private List<CoordsInterview> coords;
 
+    private EncuestaPresenter mEncuestaPresenter;
+    private Object answers;
+    private InformationComplement informationComplement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +110,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         findViews();
         coords = new ArrayList<>();
         getCoordsPerMinute();
+        mEncuestaPresenter = new EncuestaPresenterImpl(this,this);
         mShowMessageDialog = new ShowMessageDialog(this);
         mValidateFields = new ValidateFields();
         mPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
@@ -120,7 +136,13 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     @Override
     public void onClick(View v) {
         if(v == mBtnEnviarEncuesta){
-
+            AnswersInterview answersInterview = getAnswersInterview();
+            if(mSwcEncuestaDialog.isChecked()){
+                InformationComplement informationComplement = getInformationComplement();
+                mEncuestaPresenter.validateInterview(answersInterview,informationComplement, mSwcEncuestaDialog.isChecked());
+            }else{
+                mEncuestaPresenter.validateInterview(answersInterview,null, mSwcEncuestaDialog.isChecked());
+            }
         }else if(v == mSwcEncuestaDialog){
             informacionComplementaria();
         }
@@ -141,7 +163,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         mValidateFields = new ValidateFields();
         mValidateFields.validateText(new EditText[]{
                 mTPregunta5R2ColSegura, mTPregunta8R2ColSegura, mTPregunta9R1ColSegura, mTPregunta1R1IndObra, mTPregunta3R6IndObra,
-                mTPregunta5R1SondAlameda
+                mTPregunta5R1SondAlameda, mTextOtro
         });
     }
 
@@ -149,7 +171,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     public void setFieldErrorEmptyComplementInformation() {
         mValidateFields = new ValidateFields();
         mValidateFields.validateText(new EditText[]{
-                mTextTelefono, mTextCorreo, mTxtFacebook, mTxtTwitter, mTextEdadAprox, mTextOtro
+                mTextTelefono, mTextCorreo, mTxtFacebook, mTxtTwitter, mTextEdadAprox
         });
     }
 
@@ -311,6 +333,13 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         mCPregunta4R3SondAlameda = (CheckBox) findViewById(R.id.pregunta4_respuesta3_sondeo_alameda);
         mSwcEncuestaDialog = (Switch)findViewById(R.id.pregunta6_respuesta_sondeo_alameda);
 
+        mSpnLugar = (Spinner) findViewById(R.id.spnLugar);
+        mTextOtro = (EditText) findViewById(R.id.otro);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.lugar_entrevista_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpnLugar.setAdapter(adapter);
+
         mBtnEnviarEncuesta = (Button) findViewById(R.id.enviarEncuesta);
     }
 
@@ -322,14 +351,287 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         mRbHombre = (RadioButton) detallesView.findViewById(R.id.rb_hombre);
         mRbMujer = (RadioButton) detallesView.findViewById(R.id.rb_mujer);
         mTextEdadAprox = (EditText) detallesView.findViewById(R.id.edadAprox);
-        mSpnLugar = (Spinner) detallesView.findViewById(R.id.spnLugar);
-        mTextOtro = (EditText) detallesView.findViewById(R.id.otro);
         mImgIdentificacion = (ImageView) detallesView.findViewById(R.id.imgIdentificacion);
         btnAgregarFoto = (ImageButton) detallesView.findViewById(R.id.btnAgregarFoto);
         btnEliminarFoto = (ImageButton) detallesView.findViewById(R.id.btnBorrarFoto);
+    }
 
-        adapter = ArrayAdapter.createFromResource(this, R.array.lugar_entrevista_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpnLugar.setAdapter(adapter);
+    public AnswersInterview getAnswersInterview() {
+        AnswersInterview answersInterview = new AnswersInterview();
+        String respuestas_radio = "", respuesta_checkbox = "";
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
+        String id = preferences.getString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG);
+        answersInterview.setsIdUsuario(id);
+        //colonia segura
+        //pregunta1
+        if(mRPregunta1R1ColSegura.isChecked()){
+            respuestas_radio = mRPregunta1R1ColSegura.getText().toString();
+        }else if(mRPregunta1R2ColSegura.isChecked()){
+            respuestas_radio = mRPregunta1R2ColSegura.getText().toString();
+        }else if(mRPregunta1R3ColSegura.isChecked()){
+            respuestas_radio = mRPregunta1R3ColSegura.getText().toString();
+        }else if(mRPregunta1R4ColSegura.isChecked()){
+            respuestas_radio = mRPregunta1R4ColSegura.getText().toString();
+        }
+        answersInterview.setsOpinionPolicia(respuestas_radio);
+        //pregunta2
+        if(mSPregunta2R1ColSegura.isChecked()){
+            answersInterview.setsPatrullaje("1");
+        }else{
+            answersInterview.setsPatrullaje("0");
+        }
+        //pregunta3
+        if(mCPregunta3R1ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta3R1ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta3R2ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta3R2ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta3R3ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta3R3ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta3R4ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta3R4ColSegura.getText().toString();
+        }
+        answersInterview.setsHorarioPatrullaje(respuesta_checkbox);
+        //pregunta 4
+        if(mRPregunta4R1ColSegura.isChecked()){
+            respuestas_radio = mRPregunta4R1ColSegura.getText().toString();
+        }else if(mRPregunta4R2ColSegura.isChecked()){
+            respuestas_radio = mRPregunta4R2ColSegura.getText().toString();
+        }else if(mRPregunta4R3ColSegura.isChecked()){
+            respuestas_radio = mRPregunta4R3ColSegura.getText().toString();
+        }else if(mRPregunta4R4ColSegura.isChecked()){
+            respuestas_radio = mRPregunta4R4ColSegura.getText().toString();
+        }
+        answersInterview.setsAccionesMunicipio(respuestas_radio);
+        //pregunta5
+        if(mSPregunta5R1ColSegura.isChecked()){
+            answersInterview.setsTramitePendiente("1");
+        }else{
+            answersInterview.setsTramitePendiente("0");
+        }
+        answersInterview.setsTramitePendienteComentario(mTPregunta5R2ColSegura.getText().toString());
+        //pregunta6
+        if(mRPregunta6R1ColSegura.isChecked()){
+            respuestas_radio = mRPregunta6R1ColSegura.getText().toString();
+        }else if(mRPregunta6R2ColSegura.isChecked()){
+            respuestas_radio = mRPregunta6R2ColSegura.getText().toString();
+        }else if(mRPregunta6R3ColSegura.isChecked()){
+            respuestas_radio = mRPregunta6R3ColSegura.getText().toString();
+        }else if(mRPregunta6R4ColSegura.isChecked()){
+            respuestas_radio = mRPregunta6R4ColSegura.getText().toString();
+        }
+        answersInterview.setsGobiernoMarcosAguilar(respuestas_radio);
+        //pregunta7
+        respuesta_checkbox = "";
+        if(mCPregunta7R1ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta7R1ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta7R2ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta7R2ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta7R3ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta7R3ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta7R4ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta7R4ColSegura.getText().toString()+",";
+        }
+        if(mCPregunta7R5ColSegura.isChecked()){
+            respuesta_checkbox += mCPregunta7R5ColSegura.getText().toString();
+        }
+        answersInterview.setsEsperaMarcosAguilar(respuesta_checkbox);
+        //pregunta8
+        if(mSPregunta8R1ColSegura.isChecked()){
+            answersInterview.setsPracticaDeportes("1");
+        }else{
+            answersInterview.setsPracticaDeportes("0");
+        }
+        answersInterview.setsDeporte(mTPregunta8R2ColSegura.getText().toString());
+        //pregunta9
+        answersInterview.setsNecesidadColonia(mTPregunta9R1ColSegura.getText().toString());
+
+        //Induccion obra
+        //pregunta1
+        answersInterview.setoOpinionRealizarObraNombre(mTPregunta1R1IndObra.getText().toString());
+        if(mRPregunta1R2IndObra.isChecked()){
+            respuestas_radio = mRPregunta1R2IndObra.getText().toString();
+        }else if(mRPregunta1R3IndObra.isChecked()){
+            respuestas_radio = mRPregunta1R3IndObra.getText().toString();
+        }else if(mRPregunta1R4IndObra.isChecked()){
+            respuestas_radio = mRPregunta1R4IndObra.getText().toString();
+        }else if(mRPregunta1R5IndObra.isChecked()){
+            respuestas_radio = mRPregunta1R5IndObra.getText().toString();
+        }
+        answersInterview.setoOpinionRealizaObra(respuestas_radio);
+        //pregunta2
+        respuesta_checkbox = "";
+        if(mCPregunta2R1IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta2R1IndObra.getText().toString()+",";
+        }
+        if(mCPregunta2R2IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta2R2IndObra.getText().toString()+",";
+        }
+        if(mCPregunta2R3IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta2R3IndObra.getText().toString()+",";
+        }
+        if(mCPregunta2R4IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta2R4IndObra.getText().toString();
+        }
+        answersInterview.setoHorarioMayorRiesgo(respuesta_checkbox);
+        //pregunta3
+        respuesta_checkbox = "";
+        if(mCPregunta3R1IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta3R1IndObra.getText().toString()+",";
+        }
+        if(mCPregunta3R2IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta3R2IndObra.getText().toString()+",";
+        }
+        if(mCPregunta3R3IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta3R3IndObra.getText().toString()+",";
+        }
+        if(mCPregunta3R4IndObra.isChecked()){
+            respuesta_checkbox += mCPregunta3R4IndObra.getText().toString()+",";
+        }
+        if(mCPregunta3R5IndObra.isChecked()){
+            respuesta_checkbox += mTPregunta3R6IndObra.getText().toString();
+        }
+        answersInterview.setoRiesgosFraccionamiento(respuesta_checkbox);
+
+        //Lotes baldios
+        //pregunta1
+        if(mSPregunta1R1LotesBaldios.isChecked()){
+            answersInterview.setbHayLotesBaldios("1");
+        }else{
+            answersInterview.setbHayLotesBaldios("0");
+        }
+        //pregunta2
+        if(mSPregunta2R1LotesBaldios.isChecked()){
+            answersInterview.setbConsideraRiesgos("1");
+        }else{
+            answersInterview.setbConsideraRiesgos("0");
+        }
+        //pregunta3
+        if(mSPregunta3R1LotesBaldios.isChecked()){
+            answersInterview.setbDebenAtenderse("1");
+        }else{
+            answersInterview.setbDebenAtenderse("0");
+        }
+        //pregunta4
+        if(mSPregunta4R1LotesBaldios.isChecked()){
+            answersInterview.setbRealizadoLimpieza("1");
+        }else{
+            answersInterview.setbRealizadoLimpieza("0");
+        }
+        //pregunta5
+        if(mRPregunta5R1LotesBaldios.isChecked()){
+            respuestas_radio = mRPregunta5R1LotesBaldios.getText().toString();
+        }else if(mRPregunta5R2LotesBaldios.isChecked()){
+            respuestas_radio = mRPregunta5R2LotesBaldios.getText().toString();
+        }else if(mRPregunta5R3LotesBaldios.isChecked()){
+            respuestas_radio = mRPregunta5R3LotesBaldios.getText().toString();
+        }
+        answersInterview.setbDesmalezadoLotes(respuestas_radio);
+        //SondeoAlameda
+        //pregunta1
+        if(mSPregunta1R1SondAlameda.isChecked()){
+            answersInterview.setaAparienciaAlameda("1");
+        }else{
+            answersInterview.setaAparienciaAlameda("0");
+        }
+        //pregunta2
+        if(mSPregunta2R1SondAlameda.isChecked()){
+            answersInterview.setaSeguroTransitar("1");
+        }else{
+            answersInterview.setaSeguroTransitar("0");
+        }
+        //pregunta3
+        if(mSPregunta3R1SondAlameda.isChecked()){
+            answersInterview.setaAlamedaRecreo("1");
+        }else{
+            answersInterview.setaAlamedaRecreo("0");
+        }
+        //pregunta4
+        respuesta_checkbox = "";
+        if(mCPregunta4R1SondAlameda.isChecked()){
+            respuesta_checkbox += mCPregunta4R1SondAlameda.getText().toString()+",";
+        }
+        if(mCPregunta4R2SondAlameda.isChecked()){
+            respuesta_checkbox += mCPregunta4R2SondAlameda.getText().toString()+",";
+        }
+        if(mCPregunta4R3SondAlameda.isChecked()){
+            respuesta_checkbox += mCPregunta4R3SondAlameda.getText().toString();
+        }
+        answersInterview.setaProblemaAlameda(respuesta_checkbox);
+        //pregunta5
+        answersInterview.setaMejorarImagen(mTPregunta5R1SondAlameda.getText().toString());
+
+        if(mSpnLugar.getSelectedItem().toString().equals("Otro")){
+            answersInterview.setaLugarEncuesta(mTextOtro.getText().toString());
+        }else{
+            answersInterview.setaLugarEncuesta(mSpnLugar.getSelectedItem().toString());
+        }
+        answersInterview.setStatus("0");
+        GpsLocation gpsLocation = new GpsLocation(this);
+        String[] coords = gpsLocation.getLocationGPS();
+        answersInterview.setLatitud(coords[0]);
+        answersInterview.setLongitud(coords[1]);
+
+        return answersInterview;
+    }
+
+    public InformationComplement getInformationComplement() {
+        InformationComplement informationComplement = new InformationComplement();
+        if(mTextTelefono.getText().toString().equals("")) {
+            informationComplement.setTelefono("");
+        }else{
+            informationComplement.setTelefono(mTextTelefono.getText().toString());
+        }
+        if(mTextCorreo.getText().toString().equals("")) {
+            informationComplement.setEmail("");
+        }else{
+            informationComplement.setEmail(mTextCorreo.getText().toString());
+        }
+        if(mTxtFacebook.getText().toString().equals("")) {
+            informationComplement.setFacebook("");
+        }else{
+            informationComplement.setFacebook(mTxtFacebook.getText().toString());
+        }
+        if(mTxtTwitter.getText().toString().equals("")) {
+            informationComplement.setTwitter("");
+        }else{
+            informationComplement.setTwitter(mTxtTwitter.getText().toString());
+        }
+        if(mRbHombre.isChecked()) {
+            informationComplement.setGenero("Hombre");
+        }else{
+            informationComplement.setGenero("Mujer");
+        }
+        if(mTextEdadAprox.getText().toString().equals("")) {
+            informationComplement.setEdad("");
+        }else{
+            informationComplement.setEdad(mTextEdadAprox.getText().toString());
+        }
+        if(mPath != null){
+            File tarjeta = Environment.getExternalStorageDirectory();
+            File file = new File(tarjeta.getAbsolutePath(), Constants.IMAGE_PROFILE);
+            try {
+                FileInputStream fIn = new FileInputStream(file);
+                InputStreamReader archivo = new InputStreamReader(fIn);
+                BufferedReader br = new BufferedReader(archivo);
+                String linea = br.readLine();
+                String todo = "";
+                while (linea != null) {
+                    todo = todo + linea + "";
+                    linea = br.readLine();
+                }
+                br.close();
+                archivo.close();
+                informationComplement.setFoto(todo);
+            } catch (IOException e) {
+            }
+        }
+
+        return informationComplement;
     }
 }

@@ -96,27 +96,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/vertical_margin_small"
-                android:weightSum="2">
-                <Spinner
-                    android:layout_width="@dimen/width_lugar_encuesta"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spnLugar"
-                    android:layout_weight="1"
-                    android:layout_marginRight="@dimen/vertical_margin_very_small"/>
-                <EditText
-                    android:id="@+id/otro"
-                    android:hint="@string/text_hint_alert_encuesta_otro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:singleLine="true"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"

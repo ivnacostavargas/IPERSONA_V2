@@ -5,17 +5,8 @@ package com.gob.pgutierrezd.e_personas.models;
  */
 public class CoordsInterview {
 
-    private String idUsuario;
     private String latitud;
     private String longitud;
-
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
 
     public String getLatitud() {
         return latitud;
