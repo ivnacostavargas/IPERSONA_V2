@@ -2,11 +2,14 @@ package com.gob.pgutierrezd.e_personas.views;
 
 import android.Manifest;
 import android.app.AlarmManager;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.gob.pgutierrezd.e_personas.R;
+import com.gob.pgutierrezd.e_personas.sqlite.DataBaseOpenHelper;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.googlemaps.MapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Switch mSwitchChangeStatus;
     private String[] coord;
 
+    private SQLiteOpenHelper dbHelper;
+    private SQLiteDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +71,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 coord[0] = null;
                 coord[1] = null;
                 if(isChecked){
-                    SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(Constants.SHARED_PREFERENCES_COORDS_FLAG, "true");
-                    editor.commit();
                     mSwitchChangeStatus.setText(getResources().getString(R.string.text_rb_main_bandera_true));
                 }else{
                     mSwitchChangeStatus.setText(getResources().getString(R.string.text_rb_main_bandera_false));
@@ -80,6 +83,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 if(coord[0] != null && coord[1] != null) {
+                    SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(Constants.SHARED_PREFERENCES_COORDS_FLAG, "true");
+                    editor.commit();
+                    dbHelper = new DataBaseOpenHelper(getApplicationContext());
+                    database = dbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Constants.LATITUD, coord[0]);
+                    values.put(Constants.LONGITUD, coord[1]);
+                    database.insert("coords_prueba", null,values);
+
                     Intent intent = new Intent(MainActivity.this, EncuestaActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -88,6 +102,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+    }
+
+    public void showCoords(){
+        SQLiteOpenHelper dbHelper;
+        SQLiteDatabase database;
+        dbHelper = new DataBaseOpenHelper(this);
+        database = dbHelper.getWritableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM coords_prueba",null);
+        Cursor cursor2 = database.rawQuery("SELECT * FROM "+Constants.TABLE_ENCUESTAS,null);
+        Cursor cursor3 = database.rawQuery("SELECT * FROM "+Constants.TABLE_INFORMACION_COMPLEMENTARIA,null);
+        Cursor cursor4 = database.rawQuery("SELECT * FROM "+Constants.TABLE_COORDINATES,null);
     }
 
     private void findViews() {

@@ -39,6 +39,8 @@ public class Constants {
     public static final String SHARED_PREFERENCES_COORDS_FLAG = "false";
 
     //CONSTANTES PARA LA BASE DE DATOS
+    public static final String DATABASE_NAME = "epersonas.db";
+    public static final int DATABASE_VERSION = 1;
     //Tabla de encuestas
     public static final String TABLE_ENCUESTAS = "encuestas";
     public static final String IDENCUESTA = "idencuesta";
@@ -64,7 +66,7 @@ public class Constants {
     public static final String IB_DEBEN_ATENDERSE = "ib_deben_atenderse";
     public static final String IB_REALIZADO_LIMPIEZA = "ib_realizado_limpieza";
     public static final String IB_DESMALEZADO_LOTES = "ib_desmalezado_lotes";
-    public static final String SA_APARIENZA_ALAMEDA = "sa_aparienza_alameda";
+    public static final String SA_APARIENCIA_ALAMEDA = "sa_aparienza_alameda";
     public static final String SA_SEGURO_AL_TRANSITAR = "sa_seguro_al_transitar";
     public static final String SA_ALAMEDA_RECREO = "sa_alameda_recreo";
     public static final String SA_PROBLEMA_ALAMEDA = "sa_problema_alameda";
@@ -75,13 +77,19 @@ public class Constants {
     public static final String LATITUD = "latitud";
     public static final String LONGITUD = "longitud";
     public static final String COMENTARIOS = "comentarios";
+    public static final String REFERENCIA_MOVIL = "referencia_movil";
 
     //TABLA DE INFORMACION COMPLEMENTARIA
     public static final String TABLE_INFORMACION_COMPLEMENTARIA = "informacion_complementaria";
     public static final String TELEFONO = "telefono";
+    public static final String EMAIL = "correo";
     public static final String FACEBOOK = "facebook";
     public static final String TWITTER = "twitter";
     public static final String SEXO = "sexo";
     public static final String EDAD = "edad";
     public static final String FOTO = "foto";
+
+    //TABLA DE COORDENADAS
+    public static final String TABLE_COORDINATES = "coordenadas";
+    public static final String ID_COORDS = "idcoords";
 }
