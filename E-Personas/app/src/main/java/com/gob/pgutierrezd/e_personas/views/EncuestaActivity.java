@@ -1,7 +1,6 @@
 package com.gob.pgutierrezd.e_personas.views;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,11 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +32,6 @@ import com.gob.pgutierrezd.e_personas.models.AnswersInterview;
 import com.gob.pgutierrezd.e_personas.models.CoordsInterview;
 import com.gob.pgutierrezd.e_personas.models.InformationComplement;
 import com.gob.pgutierrezd.e_personas.presenters.EncuestaPresenterImpl;
-import com.gob.pgutierrezd.e_personas.utils.AlarmReceiver;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ConvertBase64;
 import com.gob.pgutierrezd.e_personas.utils.GpsLocation;
@@ -42,16 +39,10 @@ import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 import com.gob.pgutierrezd.e_personas.utils.TakePhoto;
 import com.gob.pgutierrezd.e_personas.utils.ValidateFields;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class EncuestaActivity extends AppCompatActivity implements EncuestaView , View.OnClickListener{
 
@@ -97,11 +88,12 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     private PendingIntent mAlarmIntent;
     private ArrayAdapter<CharSequence> adapter;
     private Context context;
-    private List<CoordsInterview> coords;
+    private List<CoordsInterview> listCoords;
 
     private EncuestaPresenter mEncuestaPresenter;
     private InformationComplement informationComplement;
     private String myBase64Image;
+    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +102,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         context = getApplicationContext();
         myBase64Image = "";
         findViews();
-        coords = new ArrayList<>();
+        listCoords = new ArrayList<CoordsInterview>();
         getCoordsPerMinute();
         mEncuestaPresenter = new EncuestaPresenterImpl(this,this);
         mShowMessageDialog = new ShowMessageDialog(this);
@@ -130,20 +122,14 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        stopGetCoords();
-    }
-
-    @Override
     public void onClick(View v) {
         if(v == mBtnEnviarEncuesta){
             AnswersInterview answersInterview = getAnswersInterview();
             if(mSwcEncuestaDialog.isChecked()){
                 InformationComplement informationComplement = getInformationComplement();
-                mEncuestaPresenter.validateInterview(answersInterview,informationComplement, mSwcEncuestaDialog.isChecked());
+                mEncuestaPresenter.validateInterview(answersInterview,informationComplement, listCoords, mSwcEncuestaDialog.isChecked());
             }else{
-                mEncuestaPresenter.validateInterview(answersInterview,null, mSwcEncuestaDialog.isChecked());
+                mEncuestaPresenter.validateInterview(answersInterview,null, listCoords, mSwcEncuestaDialog.isChecked());
             }
         }else if(v == mSwcEncuestaDialog){
             informacionComplementaria();
@@ -182,9 +168,33 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         backToMain();
     }
 
+    private void stopGetCoords() {
+        timer.cancel();
+    }
+
     @Override
     public String getCoordsPerMinute() {
-        getCoordsAlarm();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run(){
+                        GpsLocation gpsLocation = new GpsLocation(context);
+                        String[] getCoords = gpsLocation.getLocationGPS();
+                        CoordsInterview coordsInterview = new CoordsInterview();
+                        coordsInterview.setLatitud(getCoords[0]);
+                        coordsInterview.setLongitud(getCoords[1]);
+                        listCoords.add(coordsInterview);
+                        if(true){
+                            Log.d("AAA",getCoords[0]+","+getCoords[1]);
+                        }
+                    }
+                });
+
+            }
+        }, 0 , 30000);
         return null;
     }
 
@@ -239,24 +249,6 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
                 }
                 break;
         }
-    }
-
-    private void getCoordsAlarm(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 10);
-        AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        mAlarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        service.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Constants.INTERVALO_SEGUNDOS * 1000, mAlarmIntent);
-    }
-
-    private void stopGetCoords(){
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.clear();
-        editor.commit();
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(mAlarmIntent);
     }
 
     private void backToMain(){

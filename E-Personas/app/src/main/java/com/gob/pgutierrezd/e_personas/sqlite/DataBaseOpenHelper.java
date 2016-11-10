@@ -70,12 +70,6 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
                     Constants.LONGITUD + " VARCHAR(50) DEFAULT NULL, " +
                     Constants.IDENCUESTA + " INTEGER DEFAULT NULL)";
 
-    private final String CREATE_TABLE_COORDENADAS_PRUEBA =
-            "CREATE TABLE coords_prueba(" +
-                    Constants.ID_COORDS + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    Constants.LATITUD + " VARCHAR(50) DEFAULT NULL, " +
-                    Constants.LONGITUD + " VARCHAR(50) DEFAULT NULL);";
-
     public DataBaseOpenHelper(Context context) {
         super(context,Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
     }
@@ -85,7 +79,6 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_ENCUESTAS);
         db.execSQL(CREATE_TABLE_INFORMACION);
         db.execSQL(CREATE_TABLE_COORDENADAS);
-        db.execSQL(CREATE_TABLE_COORDENADAS_PRUEBA);
     }
 
     @Override
@@ -93,7 +86,6 @@ public class DataBaseOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_ENCUESTAS);
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_INFORMACION_COMPLEMENTARIA);
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_COORDINATES);
-        db.execSQL("DROP TABLE IF EXISTS coords_prueba");
         onCreate(db);
     }
 }

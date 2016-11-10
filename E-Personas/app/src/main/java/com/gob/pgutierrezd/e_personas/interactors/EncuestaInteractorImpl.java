@@ -16,6 +16,8 @@ import com.gob.pgutierrezd.e_personas.models.InformationComplement;
 import com.gob.pgutierrezd.e_personas.sqlite.DataBaseOpenHelper;
 import com.gob.pgutierrezd.e_personas.utils.Constants;
 
+import java.util.List;
+
 /**
  * Created by pgutierrezd on 18/10/2016.
  */
@@ -25,7 +27,7 @@ public class EncuestaInteractorImpl implements EncuestaInteractor{
     protected SQLiteDatabase database;
 
     @Override
-    public void sendInterview(final AnswersInterview answersInterview, final InformationComplement informationComplement, final boolean bandera, final Context context, final OnInterviewFinishedListener listener) {
+    public void sendInterview(final AnswersInterview answersInterview, final InformationComplement informationComplement, final List<CoordsInterview> coordsInterviews, final boolean bandera, final Context context, final OnInterviewFinishedListener listener) {
         if(answersInterview.getsNecesidadColonia().isEmpty() || answersInterview.getoOpinionRealizarObraNombre().isEmpty()
                 || answersInterview.getaMejorarImagen().isEmpty()){
             listener.errorSendInterview();
@@ -33,13 +35,13 @@ public class EncuestaInteractorImpl implements EncuestaInteractor{
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    saveInterviewSqlite(answersInterview,informationComplement, bandera, context,listener);
+                    saveInterviewSqlite(answersInterview,informationComplement, coordsInterviews, bandera, context,listener);
                 }
             },2000);
         }
     }
 
-    private void saveInterviewSqlite(AnswersInterview answersInterview, InformationComplement informationComplement,boolean bandera, Context context, OnInterviewFinishedListener listener) {
+    private void saveInterviewSqlite(AnswersInterview answersInterview, InformationComplement informationComplement, List<CoordsInterview> coordsInterviews,boolean bandera, Context context, OnInterviewFinishedListener listener) {
         dbHelper = new DataBaseOpenHelper(context);
         database = dbHelper.getWritableDatabase();
 
@@ -80,12 +82,11 @@ public class EncuestaInteractorImpl implements EncuestaInteractor{
             values.put(Constants.REFERENCIA_MOVIL, answersInterview.getReferenciaMovil());
             int id = (int) database.insert(Constants.TABLE_ENCUESTAS, null,values);
 
-            Cursor cursor = database.rawQuery("SELECT * FROM coords_prueba",null);
-            if(cursor.getCount() > 0){
-                while(cursor.moveToNext()){
+            if(coordsInterviews != null){
+                for (CoordsInterview coordsInterview: coordsInterviews){
                     ContentValues valuesCoords = new ContentValues();
-                    valuesCoords.put(Constants.LATITUD, cursor.getString(cursor.getColumnIndex("latitud")));
-                    valuesCoords.put(Constants.LONGITUD, cursor.getString(cursor.getColumnIndex("longitud")));
+                    valuesCoords.put(Constants.LATITUD, coordsInterview.getLatitud());
+                    valuesCoords.put(Constants.LONGITUD, coordsInterview.getLongitud());
                     valuesCoords.put(Constants.IDENCUESTA, id);
                     database.insert(Constants.TABLE_COORDINATES, null, valuesCoords);
                 }
@@ -103,13 +104,10 @@ public class EncuestaInteractorImpl implements EncuestaInteractor{
                     valuesExtra.put(Constants.FECHA, informationComplement.getFecha());
                     valuesExtra.put(Constants.FOTO, informationComplement.getFoto());
                     int i = (int) database.insert(Constants.TABLE_INFORMACION_COMPLEMENTARIA, null, valuesExtra);
-                    Log.d("AAA",""+i);
                 }catch (Exception e){
                     Log.d("AAA",e.getMessage());
                 }
             }
-            database.execSQL("delete from coords_prueba");
-            Cursor cursor3 = database.rawQuery("SELECT * FROM informacion_complementaria;",null);
             Toast.makeText(context, "Encuesta guardada",Toast.LENGTH_LONG).show();
             listener.navigateToHome();
         }catch (Exception e){

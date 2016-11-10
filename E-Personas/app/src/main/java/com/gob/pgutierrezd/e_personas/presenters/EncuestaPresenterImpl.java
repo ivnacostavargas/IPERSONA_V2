@@ -10,6 +10,8 @@ import com.gob.pgutierrezd.e_personas.models.AnswersInterview;
 import com.gob.pgutierrezd.e_personas.models.CoordsInterview;
 import com.gob.pgutierrezd.e_personas.models.InformationComplement;
 
+import java.util.List;
+
 /**
  * Created by pgutierrezd on 18/10/2016.
  */
@@ -26,10 +28,10 @@ public class EncuestaPresenterImpl implements EncuestaPresenter, EncuestaInterac
     }
 
     @Override
-    public void validateInterview(AnswersInterview answersInterview,InformationComplement informationComplement, boolean bandera) {
+    public void validateInterview(AnswersInterview answersInterview, InformationComplement informationComplement, List<CoordsInterview> coordsInterviews, boolean bandera) {
         if(mEncuestaView != null){
             mEncuestaView.showProgress();
-            mEncuestaInteractor.sendInterview(answersInterview,informationComplement, bandera, this.context, this);
+            mEncuestaInteractor.sendInterview(answersInterview,informationComplement,coordsInterviews, bandera, this.context, this);
         }
     }
 

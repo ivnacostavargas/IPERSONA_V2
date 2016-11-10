@@ -1,13 +1,11 @@
 package com.gob.pgutierrezd.e_personas.views;
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
@@ -63,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name_main));
         getMap();
         coord = new String[2];
-        checkFlagCoords();
-        //showCoords();
+        showCoords();
 
         mSwitchChangeStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -110,10 +107,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SQLiteDatabase database;
         dbHelper = new DataBaseOpenHelper(this);
         database = dbHelper.getWritableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM coords_prueba",null);
-        Cursor cursor2 = database.rawQuery("SELECT * FROM "+Constants.TABLE_ENCUESTAS,null);
-        Cursor cursor3 = database.rawQuery("SELECT * FROM informacion_complementaria;",null);
-        Cursor cursor4 = database.rawQuery("SELECT * FROM "+Constants.TABLE_COORDINATES,null);
+        Cursor cursor1 = database.rawQuery("SELECT * FROM "+Constants.TABLE_ENCUESTAS,null);
+        Cursor cursor2 = database.rawQuery("SELECT * FROM informacion_complementaria;",null);
+        Cursor cursor3 = database.rawQuery("SELECT * FROM "+Constants.TABLE_COORDINATES,null);
         int i = 0;
     }
 
@@ -194,16 +190,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             coord[1] = String.valueOf(mMap.getCameraPosition().target.longitude);
         }else{
             mMap.clear();
-        }
-    }
-
-    private void checkFlagCoords(){
-        SharedPreferences preferencesCoords = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
-        String flag_coords = preferencesCoords.getString(Constants.SHARED_PREFERENCES_COORDS_FLAG, Constants.SHARED_PREFERENCES_COORDS_FLAG);
-        if(flag_coords.equals("true")){
-            SharedPreferences.Editor editor = preferencesCoords.edit();
-            editor.clear();
-            editor.commit();
         }
     }
 
