@@ -217,6 +217,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             intent = new Intent(this, InicioActivity.class);
             startActivity(intent);
         }
+
+        if(item.getItemId() == R.id.action_user_share){
+            Toast.makeText(this,"Share",Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
