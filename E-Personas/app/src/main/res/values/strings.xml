@@ -137,10 +137,24 @@
     <!--Información complementaria-->
     <string name="text_dialog_title">Información Complementaria</string>
 
-    <!--URL Simulacion-->
+    <!--URL-->
     <string name="url">http://ivnacostavargas.xyz/ws/</string>
 
-    <!--URL Produccion
-    <string name="url"></string>
-    -->
+    <string name="text_guion">-</string>
+
+    <!-- Mensajes de error-->
+    <string name="text_title_error">Error</string>
+    <string name="text_title_error_advertencia">Advertencia</string>
+    <string name="text_title_success">Felicidades</string>
+
+    <string name="text_inicio_activity_cancelar_sesion">Cancelaste inicio de sesion.</string>
+    <string name="text_inicio_activity_error_sesion">Error al iniciar sesion.</string>
+    <string name="text_inicio_activity_error_cuenta_no_valida">No se pudo iniciar sesion con esta cuenta de facebook.</string>
+    <string name="text_error_wifi">No cuentas con señal wifi o datos móviles</string>
+    <string name="text_error_actualizar_usuario">Error al actualizar usuario, por favor vuelve a intentarlo.</string>
+    <string name="text_main_activity_toast_error_gps">No podemos encontrar tu posición, por favor usa el marcador o presiona el boton para encontrar tu posición.</string>
+    <string name="text_actualizar_usuario">Datos actualizados correctamente!</string>
+    <string name="text_actualizar_usuario_error">No pudimos actualizar tus datos!</string>
+    <string name="text_actualizar_usuario_error_server">Error al intentar conectar con el servidor.</string>
+
 </resources>

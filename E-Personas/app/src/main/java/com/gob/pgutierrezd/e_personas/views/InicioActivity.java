@@ -71,13 +71,13 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
             @Override
             public void onCancel() {
                 mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                mShowMessageDialog.showMessageInfo("Advertencia", "Cancelaste inicio de sesion.");
+                mShowMessageDialog.showMessageInfo(getResources().getString(R.string.text_title_error_advertencia), getResources().getString(R.string.text_inicio_activity_cancelar_sesion));
             }
 
             @Override
             public void onError(FacebookException exception) {
                 mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
-                mShowMessageDialog.showMessageInfo("Error", "Error al iniciar sesion.");
+                mShowMessageDialog.showMessageInfo(getResources().getString(R.string.text_title_error), getResources().getString(R.string.text_inicio_activity_error_sesion));
             }
         });
         new ProfileTracker() {
@@ -126,7 +126,7 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
     @Override
     public void onFailLogin() {
         mShowMessageDialog = new ShowMessageDialog(InicioActivity.this);
-        mShowMessageDialog.showMessageInfo("Error", "No se pudo iniciar sesion con esta cuenta de facebook.");
+        mShowMessageDialog.showMessageInfo(getResources().getString(R.string.text_title_error), getResources().getString(R.string.text_inicio_activity_error_cuenta_no_valida));
     }
 
     private void findViews() {
@@ -137,7 +137,7 @@ public class InicioActivity extends AppCompatActivity implements InicioView{
     private void validateSession(){
         SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_LOGIN, MODE_PRIVATE);
         String id = preferences.getString(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG, Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG);
-        if(id.length() > 0 && !id.equals("id")){
+        if(id.length() > 0 && !id.equals(Constants.SHARED_PREFERENCES_LOGIN_ID_FLAG)){
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

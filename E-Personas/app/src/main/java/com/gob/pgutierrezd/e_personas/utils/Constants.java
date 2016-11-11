@@ -34,9 +34,12 @@ public class Constants {
 
     public static final int DATE_DIALOG_ID = 999;
 
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
+
     //SharePreferences para verificar ecuesta activa
     public static final String SHARED_PREFERENCES_COORDS = "coords";
-    public static final String SHARED_PREFERENCES_COORDS_FLAG = "false";
+    public static final String SHARED_PREFERENCES_COORDS_FLAG = "id_cords";
 
     //CONSTANTES PARA LA BASE DE DATOS
     public static final String DATABASE_NAME = "epersonas.db";
@@ -92,4 +95,20 @@ public class Constants {
     //TABLA DE COORDENADAS
     public static final String TABLE_COORDINATES = "coordenadas";
     public static final String ID_COORDS = "idcoords";
+
+    //METODOS WEBSERVICE
+    public static final String METHOD_GET = "GET";
+    public static final String METHOD_POST = "POST";
+
+    //DIRECCIONES WEBSERVICE
+    public static final String CLASS_URL_GETUSERS = "getUsuarios.php";
+    public static final String CLASS_URL_UPDATE = "updateDatos.php";
+    public static final String CLASS_URL_LOGIN = "login.php";
+
+    //JSON RESULTADOS
+    public static final String JSON_KEY_CLAVE = "clave";
+
+    public static final String JSON_RESULT_CLAVE = "OK";
+    public static final String JSON_RESULT_ERROR = "error";
+
 }

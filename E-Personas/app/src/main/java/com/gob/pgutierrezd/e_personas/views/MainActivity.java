@@ -80,24 +80,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mBtnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(coord[0] != null && coord[1] != null) {
-                    SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_COORDS, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(Constants.SHARED_PREFERENCES_COORDS_FLAG, "true");
-                    editor.commit();
-                    dbHelper = new DataBaseOpenHelper(getApplicationContext());
-                    database = dbHelper.getWritableDatabase();
-                    ContentValues values = new ContentValues();
-                    values.put(Constants.LATITUD, coord[0]);
-                    values.put(Constants.LONGITUD, coord[1]);
-                    database.insert("coords_prueba", null,values);
+            if(coord[0] != null && coord[1] != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.LATITUD,coord[0]);
+                bundle.putString(Constants.LONGITUD,coord[1]);
 
-                    Intent intent = new Intent(MainActivity.this, EncuestaActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(MainActivity.this,"No podemos encontrar tu posición, por favor usa el marcador o presiona el boton para encontrar tu posición.",Toast.LENGTH_LONG).show();
-                }
+                Intent intent = new Intent(MainActivity.this, EncuestaActivity.class);
+                intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }else{
+                Toast.makeText(MainActivity.this,getResources().getString(R.string.text_main_activity_toast_error_gps),Toast.LENGTH_LONG).show();
+            }
             }
         });
     }
@@ -158,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMarkerDragEnd(Marker marker) {
         coord[0] = String.valueOf(marker.getPosition().latitude);
         coord[1] = String.valueOf(marker.getPosition().longitude);
-        Log.d("AA", "Coordenadas al colocar marcador " + marker.getPosition());
     }
 
     public void getMap() {

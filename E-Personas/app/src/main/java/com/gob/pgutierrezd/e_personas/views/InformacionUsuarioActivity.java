@@ -24,23 +24,23 @@ import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 
 public class InformacionUsuarioActivity extends AppCompatActivity implements ActualizarView {
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
     private EditText mNombre, mApellidos, mTelefono, mFechaNacimiento, mCorreo, mPassword, mPasswordConfirm;
     private Button mBtnActualizarPerfil;
     private ImageButton mGetCalendar;
     private CloseKeyboard mCloseKeyboard;
     private Connectivity mConnectivity;
     private ShowMessageDialog mShowMessageDialog;
-    private ActualizarPresenter actualizarPresenter;
-    private EditText[] data;
-    private int myear, mmonth, mday;
+    private ActualizarPresenter mActualizarPresenter;
+    private EditText[] mData;
+    private int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informacion_usuario);
         findViews();
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name_actualizar));
 
         mCloseKeyboard = new CloseKeyboard(this);
@@ -53,8 +53,8 @@ public class InformacionUsuarioActivity extends AppCompatActivity implements Act
         setCurrentDateOnView();
 
         final EditText[] data = getData();
-        actualizarPresenter = new ActualizarPresenterImpl(this, this);
-        actualizarPresenter.getData(data,Integer.parseInt(id));
+        mActualizarPresenter = new ActualizarPresenterImpl(this, this);
+        mActualizarPresenter.getData(data, Integer.parseInt(id));
 
         mBtnActualizarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,9 +64,9 @@ public class InformacionUsuarioActivity extends AppCompatActivity implements Act
                 datosActualizar.setmCorreo(mCorreo.getText().toString());
                 datosActualizar.setmTelefono(mTelefono.getText().toString());
                 datosActualizar.setmFechaNacimiento(mFechaNacimiento.getText().toString());
-                actualizarPresenter.updateData(datosActualizar);
+                mActualizarPresenter.updateData(datosActualizar);
             }else{
-                mShowMessageDialog.showMessageInfo("Error","No cuentas con señal wifi o datos móviles");
+                mShowMessageDialog.showMessageInfo(getResources().getString(R.string.text_title_error),getResources().getString(R.string.text_error_wifi));
             }
             }
         });
@@ -105,27 +105,24 @@ public class InformacionUsuarioActivity extends AppCompatActivity implements Act
 
     @Override
     public void errorConnectionServer() {
-        mShowMessageDialog.showMessageInfo("Error", "Error al actualizar usuario, por favor vuelve a intentarlo.");
+        mShowMessageDialog.showMessageInfo(getResources().getString(R.string.text_title_error), getResources().getString(R.string.text_error_actualizar_usuario));
     }
 
-    // display current date
     public void setCurrentDateOnView() {
         final java.util.Calendar c = java.util.Calendar.getInstance();
-        myear = c.get(java.util.Calendar.YEAR);
-        mmonth = c.get(java.util.Calendar.MONTH);
-        mday = c.get(java.util.Calendar.DAY_OF_MONTH);
-        mFechaNacimiento.setText(new StringBuilder().append(myear).append("-").append(mmonth + 1).append("-").append(mday));
+        mYear = c.get(java.util.Calendar.YEAR);
+        mMonth = c.get(java.util.Calendar.MONTH);
+        mDay = c.get(java.util.Calendar.DAY_OF_MONTH);
+        mFechaNacimiento.setText(new StringBuilder().append(mYear).append(getResources().getString(R.string.text_guion)).append(mMonth + 1).append(getResources().getString(R.string.text_guion)).append(mDay));
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case Constants.DATE_DIALOG_ID:
-                // set date picker as current date
-                DatePickerDialog _date = new DatePickerDialog(this, datePickerListener, myear,mmonth,mday){
+                DatePickerDialog _date = new DatePickerDialog(this, datePickerListener, mYear, mMonth, mDay){
                     @Override
                     public void onDateChanged(DatePicker view, int yearSelected, int monthOfYearSelected, int dayOfMonthSelected){
-                        //calendarHelper.validateDate(view,yearSelected,monthOfYearSelected,dayOfMonthSelected, myear,mmonth,mday);
                     }
                 };
                 return _date;
@@ -135,17 +132,17 @@ public class InformacionUsuarioActivity extends AppCompatActivity implements Act
 
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int selectedYear,int selectedMonth, int selectedDay) {
-            myear = selectedYear;
-            mmonth = selectedMonth;
-            mday = selectedDay;
+            mYear = selectedYear;
+            mMonth = selectedMonth;
+            mDay = selectedDay;
 
-            mFechaNacimiento.setText(new StringBuilder().append(myear).append("-").append(mmonth + 1)
-                    .append("-").append(mday));
+            mFechaNacimiento.setText(new StringBuilder().append(mYear).append("-").append(mMonth + 1)
+                    .append("-").append(mDay));
         }
     };
 
     private void findViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mNombre = (EditText) findViewById(R.id.edittext_nombre);
         mApellidos = (EditText) findViewById(R.id.edittext_apellidos);
         mTelefono = (EditText) findViewById(R.id.edittext_celular);

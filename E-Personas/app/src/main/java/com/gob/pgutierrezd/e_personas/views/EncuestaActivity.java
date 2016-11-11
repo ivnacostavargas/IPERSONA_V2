@@ -103,6 +103,13 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         myBase64Image = "";
         findViews();
         listCoords = new ArrayList<CoordsInterview>();
+
+        Bundle bundle = getIntent().getExtras();
+        CoordsInterview coordsInterview = new CoordsInterview();
+        coordsInterview.setLatitud(bundle.getString(Constants.LATITUD));
+        coordsInterview.setLongitud(bundle.getString(Constants.LONGITUD));
+        listCoords.add(coordsInterview);
+
         getCoordsPerMinute();
         mEncuestaPresenter = new EncuestaPresenterImpl(this,this);
         mShowMessageDialog = new ShowMessageDialog(this);
@@ -178,23 +185,23 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable(){
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run(){
+                    public void run() {
                         GpsLocation gpsLocation = new GpsLocation(context);
                         String[] getCoords = gpsLocation.getLocationGPS();
                         CoordsInterview coordsInterview = new CoordsInterview();
                         coordsInterview.setLatitud(getCoords[0]);
                         coordsInterview.setLongitud(getCoords[1]);
                         listCoords.add(coordsInterview);
-                        if(true){
-                            Log.d("AAA",getCoords[0]+","+getCoords[1]);
+                        if (true) {
+                            Log.d("AAA", getCoords[0] + "," + getCoords[1]);
                         }
                     }
                 });
 
             }
-        }, 0 , 30000);
+        }, 0, 30000);
         return null;
     }
 
@@ -239,13 +246,12 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         switch(requestCode){
             case Constants.CAMARA_REQUEST:
                 if(resultCode == Activity.RESULT_OK){
-                    bm = (Bitmap) data.getExtras().get("data");
-                    mPath = data.getData();
-                    /*try{
-                        bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), mPath);
-                    }catch (Exception e){}*/
-                    mImgIdentificacion.setImageBitmap(bm);
-                    myBase64Image = ConvertBase64.encodeToBase64(bm, Bitmap.CompressFormat.JPEG, 100);
+                    try {
+                        bm = (Bitmap) data.getExtras().get("data");
+                        mPath = data.getData();
+                        mImgIdentificacion.setImageBitmap(bm);
+                        myBase64Image = ConvertBase64.encodeToBase64(bm, Bitmap.CompressFormat.JPEG, 100);
+                    }catch (Exception e){}
                 }
                 break;
         }

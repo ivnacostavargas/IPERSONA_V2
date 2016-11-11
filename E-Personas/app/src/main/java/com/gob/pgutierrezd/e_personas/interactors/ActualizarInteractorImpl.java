@@ -9,6 +9,7 @@ import com.gob.pgutierrezd.e_personas.httpconn.HttpManager;
 import com.gob.pgutierrezd.e_personas.httpconn.RequestPackage;
 import com.gob.pgutierrezd.e_personas.interfaces.actualizar.ActualizarInteractor;
 import com.gob.pgutierrezd.e_personas.models.LoginRegister;
+import com.gob.pgutierrezd.e_personas.utils.Constants;
 import com.gob.pgutierrezd.e_personas.utils.ShowMessageDialog;
 
 import org.json.JSONException;
@@ -32,8 +33,8 @@ public class ActualizarInteractorImpl implements ActualizarInteractor {
 
     private void requestGetDataUser(String url, EditText[] data, int id, OnUpdateFinishedListener listener, Context context){
         RequestPackage requestPackage = new RequestPackage();
-        requestPackage.setUri(url + "getUsuarios.php");
-        requestPackage.setMethod("POST");
+        requestPackage.setUri(url + Constants.CLASS_URL_GETUSERS);
+        requestPackage.setMethod(Constants.METHOD_POST);
         requestPackage.setParams("json", "{\"idUsuario\":"+id+"}");
         GetDataUserTask getDataUserTask = new GetDataUserTask(listener, context,data);
         getDataUserTask.execute(requestPackage);
@@ -41,8 +42,8 @@ public class ActualizarInteractorImpl implements ActualizarInteractor {
 
     private void requestDataUpdate(String url, LoginRegister loginRegister, OnUpdateFinishedListener listener, Context context){
         RequestPackage requestPackage = new RequestPackage();
-        requestPackage.setUri(url+"updateDatos.php");
-        requestPackage.setMethod("POST");
+        requestPackage.setUri(url+Constants.CLASS_URL_UPDATE);
+        requestPackage.setMethod(Constants.METHOD_POST);
         requestPackage.setParams("json", "{\"correo\":\""+loginRegister.getmCorreo()+"\"," +
                 "\"telefono\":\""+loginRegister.getmTelefono()+"\"," +
                 "\"fechaNacimiento\":\""+loginRegister.getmFechaNacimiento()+"\"}");
@@ -136,17 +137,17 @@ public class ActualizarInteractorImpl implements ActualizarInteractor {
                 if(!s.equals("")) {
                     JSONObject parent = new JSONObject(s);
                     if (parent.length() > 0) {
-                        JSONObject child1 = new JSONObject(parent.getString("error"));
-                        if(child1.getString("clave").equals("OK")) {
-                            showMessageDialog.showMessageInfo("Felicidades","Datos actualizados correctamente!");
+                        JSONObject child1 = new JSONObject(parent.getString(Constants.JSON_RESULT_ERROR));
+                        if(child1.getString(Constants.JSON_KEY_CLAVE).equals(Constants.JSON_RESULT_CLAVE)) {
+                            showMessageDialog.showMessageInfo(context.getResources().getString(R.string.text_title_success),context.getResources().getString(R.string.text_actualizar_usuario));
                             listener.getDataFinish();
                         }else{
-                            showMessageDialog.showMessageInfo("Error", "No pudimos actualizar tus datos!");
+                            showMessageDialog.showMessageInfo(context.getResources().getString(R.string.text_title_error), context.getResources().getString(R.string.text_actualizar_usuario_error));
                             listener.errorUpdate();
                         }
                     }
                 }else{
-                    showMessageDialog.showMessageInfo("Error","Error al intentar conectar con el servidor");
+                    showMessageDialog.showMessageInfo(context.getResources().getString(R.string.text_title_error),context.getResources().getString(R.string.text_actualizar_usuario_error_server));
                     listener.errorConnectionServer();
                 }
             } catch (JSONException e) {
