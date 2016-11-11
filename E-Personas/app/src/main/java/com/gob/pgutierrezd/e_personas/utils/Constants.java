@@ -111,4 +111,17 @@ public class Constants {
     public static final String JSON_RESULT_CLAVE = "OK";
     public static final String JSON_RESULT_ERROR = "error";
 
+    //BANDERAS PARA BOTONES SWITCH
+    public static final String NUMERO_UNO = "1";
+    public static final String NUMERO_CERO = "0";
+
+    public static final String COMA = ",";
+
+    public static final String GENERO_HOMBRE = "Hombre";
+    public static final String GENERO_MUJER = "Mujer";
+
+    public static final String VACIO_SIN_ESPACIO = "";
+
+    public static final String VALOR_OTRO = "Otro";
+
 }

@@ -195,7 +195,7 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
                         coordsInterview.setLongitud(getCoords[1]);
                         listCoords.add(coordsInterview);
                         if (true) {
-                            Log.d("AAA", getCoords[0] + "," + getCoords[1]);
+                            Log.d("AAA", getCoords[0] + Constants.COMA + getCoords[1]);
                         }
                     }
                 });
@@ -369,19 +369,19 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         answersInterview.setsOpinionPolicia(respuestas_radio);
         //pregunta2
         if(mSPregunta2R1ColSegura.isChecked()){
-            answersInterview.setsPatrullaje("1");
+            answersInterview.setsPatrullaje(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setsPatrullaje("0");
+            answersInterview.setsPatrullaje(Constants.NUMERO_CERO);
         }
         //pregunta3
         if(mCPregunta3R1ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta3R1ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R1ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R2ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta3R2ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R2ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R3ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta3R3ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R3ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R4ColSegura.isChecked()){
             respuesta_checkbox += mCPregunta3R4ColSegura.getText().toString();
@@ -400,9 +400,9 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         answersInterview.setsAccionesMunicipio(respuestas_radio);
         //pregunta5
         if(mSPregunta5R1ColSegura.isChecked()){
-            answersInterview.setsTramitePendiente("1");
+            answersInterview.setsTramitePendiente(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setsTramitePendiente("0");
+            answersInterview.setsTramitePendiente(Constants.NUMERO_CERO);
         }
         answersInterview.setsTramitePendienteComentario(mTPregunta5R2ColSegura.getText().toString());
         //pregunta6
@@ -419,16 +419,16 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         //pregunta7
         respuesta_checkbox = "";
         if(mCPregunta7R1ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta7R1ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta7R1ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta7R2ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta7R2ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta7R2ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta7R3ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta7R3ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta7R3ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta7R4ColSegura.isChecked()){
-            respuesta_checkbox += mCPregunta7R4ColSegura.getText().toString()+",";
+            respuesta_checkbox += mCPregunta7R4ColSegura.getText().toString()+Constants.COMA;
         }
         if(mCPregunta7R5ColSegura.isChecked()){
             respuesta_checkbox += mCPregunta7R5ColSegura.getText().toString();
@@ -436,9 +436,9 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         answersInterview.setsEsperaMarcosAguilar(respuesta_checkbox);
         //pregunta8
         if(mSPregunta8R1ColSegura.isChecked()){
-            answersInterview.setsPracticaDeportes("1");
+            answersInterview.setsPracticaDeportes(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setsPracticaDeportes("0");
+            answersInterview.setsPracticaDeportes(Constants.NUMERO_CERO);
         }
         answersInterview.setsDeporte(mTPregunta8R2ColSegura.getText().toString());
         //pregunta9
@@ -460,13 +460,13 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         //pregunta2
         respuesta_checkbox = "";
         if(mCPregunta2R1IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta2R1IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta2R1IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta2R2IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta2R2IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta2R2IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta2R3IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta2R3IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta2R3IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta2R4IndObra.isChecked()){
             respuesta_checkbox += mCPregunta2R4IndObra.getText().toString();
@@ -475,16 +475,16 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         //pregunta3
         respuesta_checkbox = "";
         if(mCPregunta3R1IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta3R1IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R1IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R2IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta3R2IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R2IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R3IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta3R3IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R3IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R4IndObra.isChecked()){
-            respuesta_checkbox += mCPregunta3R4IndObra.getText().toString()+",";
+            respuesta_checkbox += mCPregunta3R4IndObra.getText().toString()+Constants.COMA;
         }
         if(mCPregunta3R5IndObra.isChecked()){
             respuesta_checkbox += mTPregunta3R6IndObra.getText().toString();
@@ -494,27 +494,27 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         //Lotes baldios
         //pregunta1
         if(mSPregunta1R1LotesBaldios.isChecked()){
-            answersInterview.setbHayLotesBaldios("1");
+            answersInterview.setbHayLotesBaldios(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setbHayLotesBaldios("0");
+            answersInterview.setbHayLotesBaldios(Constants.NUMERO_CERO);
         }
         //pregunta2
         if(mSPregunta2R1LotesBaldios.isChecked()){
-            answersInterview.setbConsideraRiesgos("1");
+            answersInterview.setbConsideraRiesgos(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setbConsideraRiesgos("0");
+            answersInterview.setbConsideraRiesgos(Constants.NUMERO_CERO);
         }
         //pregunta3
         if(mSPregunta3R1LotesBaldios.isChecked()){
-            answersInterview.setbDebenAtenderse("1");
+            answersInterview.setbDebenAtenderse(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setbDebenAtenderse("0");
+            answersInterview.setbDebenAtenderse(Constants.NUMERO_CERO);
         }
         //pregunta4
         if(mSPregunta4R1LotesBaldios.isChecked()){
-            answersInterview.setbRealizadoLimpieza("1");
+            answersInterview.setbRealizadoLimpieza(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setbRealizadoLimpieza("0");
+            answersInterview.setbRealizadoLimpieza(Constants.NUMERO_CERO);
         }
         //pregunta5
         if(mRPregunta5R1LotesBaldios.isChecked()){
@@ -528,29 +528,29 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         //SondeoAlameda
         //pregunta1
         if(mSPregunta1R1SondAlameda.isChecked()){
-            answersInterview.setaAparienciaAlameda("1");
+            answersInterview.setaAparienciaAlameda(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setaAparienciaAlameda("0");
+            answersInterview.setaAparienciaAlameda(Constants.NUMERO_CERO);
         }
         //pregunta2
         if(mSPregunta2R1SondAlameda.isChecked()){
-            answersInterview.setaSeguroTransitar("1");
+            answersInterview.setaSeguroTransitar(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setaSeguroTransitar("0");
+            answersInterview.setaSeguroTransitar(Constants.NUMERO_CERO);
         }
         //pregunta3
         if(mSPregunta3R1SondAlameda.isChecked()){
-            answersInterview.setaAlamedaRecreo("1");
+            answersInterview.setaAlamedaRecreo(Constants.NUMERO_UNO);
         }else{
-            answersInterview.setaAlamedaRecreo("0");
+            answersInterview.setaAlamedaRecreo(Constants.NUMERO_CERO);
         }
         //pregunta4
         respuesta_checkbox = "";
         if(mCPregunta4R1SondAlameda.isChecked()){
-            respuesta_checkbox += mCPregunta4R1SondAlameda.getText().toString()+",";
+            respuesta_checkbox += mCPregunta4R1SondAlameda.getText().toString()+Constants.COMA;
         }
         if(mCPregunta4R2SondAlameda.isChecked()){
-            respuesta_checkbox += mCPregunta4R2SondAlameda.getText().toString()+",";
+            respuesta_checkbox += mCPregunta4R2SondAlameda.getText().toString()+Constants.COMA;
         }
         if(mCPregunta4R3SondAlameda.isChecked()){
             respuesta_checkbox += mCPregunta4R3SondAlameda.getText().toString();
@@ -559,12 +559,12 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
         //pregunta5
         answersInterview.setaMejorarImagen(mTPregunta5R1SondAlameda.getText().toString());
 
-        if(mSpnLugar.getSelectedItem().toString().equals("Otro")){
+        if(mSpnLugar.getSelectedItem().toString().equals(Constants.VALOR_OTRO)){
             answersInterview.setaLugarEncuesta(mTextOtro.getText().toString());
         }else{
             answersInterview.setaLugarEncuesta(mSpnLugar.getSelectedItem().toString());
         }
-        answersInterview.setStatus("0");
+        answersInterview.setStatus(Constants.NUMERO_CERO);
         GpsLocation gpsLocation = new GpsLocation(this);
         String[] coords = gpsLocation.getLocationGPS();
         answersInterview.setLatitud(coords[0]);
@@ -575,32 +575,32 @@ public class EncuestaActivity extends AppCompatActivity implements EncuestaView 
 
     public InformationComplement getInformationComplement() {
         InformationComplement informationComplement = new InformationComplement();
-        if(mTextTelefono.getText().toString().equals("")) {
-            informationComplement.setTelefono("");
+        if(mTextTelefono.getText().toString().equals(Constants.VACIO_SIN_ESPACIO)) {
+            informationComplement.setTelefono(Constants.VACIO_SIN_ESPACIO);
         }else{
             informationComplement.setTelefono(mTextTelefono.getText().toString());
         }
-        if(mTextCorreo.getText().toString().equals("")) {
-            informationComplement.setEmail("");
+        if(mTextCorreo.getText().toString().equals(Constants.VACIO_SIN_ESPACIO)) {
+            informationComplement.setEmail(Constants.VACIO_SIN_ESPACIO);
         }else{
             informationComplement.setEmail(mTextCorreo.getText().toString());
         }
-        if(mTxtFacebook.getText().toString().equals("")) {
-            informationComplement.setFacebook("");
+        if(mTxtFacebook.getText().toString().equals(Constants.VACIO_SIN_ESPACIO)) {
+            informationComplement.setFacebook(Constants.VACIO_SIN_ESPACIO);
         }else{
             informationComplement.setFacebook(mTxtFacebook.getText().toString());
         }
-        if(mTxtTwitter.getText().toString().equals("")) {
-            informationComplement.setTwitter("");
+        if(mTxtTwitter.getText().toString().equals(Constants.VACIO_SIN_ESPACIO)) {
+            informationComplement.setTwitter(Constants.VACIO_SIN_ESPACIO);
         }else{
             informationComplement.setTwitter(mTxtTwitter.getText().toString());
         }
         if(mRbHombre.isChecked()) {
-            informationComplement.setGenero("Hombre");
+            informationComplement.setGenero(Constants.GENERO_HOMBRE);
         }else{
-            informationComplement.setGenero("Mujer");
+            informationComplement.setGenero(Constants.GENERO_MUJER);
         }
-        if(mTextEdadAprox.getText().toString().equals("")) {
+        if(mTextEdadAprox.getText().toString().equals(Constants.VACIO_SIN_ESPACIO)) {
             informationComplement.setEdad(0);
         }else{
             informationComplement.setEdad(Integer.parseInt(mTextEdadAprox.getText().toString()));
